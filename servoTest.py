@@ -5,8 +5,10 @@ servo = Servo(17)
 
 try:
 	while True:
+		#first bomb release value
     		servo.value = -.6
     		time.sleep(8)
+		#second bomb release value
 		servo.value = 0
 		time.sleep(8)
 except KeyboardInterrupt:
