@@ -53,3 +53,6 @@ if __name__ == "__main__":
     YDiff =  center[1] - CenterY
     print(XDiff)
     print(YDiff)
+
+    # This fucntion will currently return the X,Y pixel locations of the center of a target in an image
+    # This function will also calculate the difference from the center of the image to the center of the identified target
