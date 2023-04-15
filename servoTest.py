@@ -2,14 +2,13 @@ from gpiozero import Servo
 from time import sleep
 import time
 servo = Servo(17)
-
+#servo.frame_width(.5)
+i = 1
 try:
 	while True:
-		#first bomb release value
-    		servo.value = -.6
-    		time.sleep(8)
-		#second bomb release value
-		servo.value = 0
-		time.sleep(8)
+		for i in range (6):
+			servo.value = 1 - (i * .1)
+			time.sleep(.5)
+		i = 1
 except KeyboardInterrupt:
 	print("Program stopped")
