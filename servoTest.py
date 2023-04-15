@@ -1,13 +1,11 @@
 from gpiozero import Servo
 from time import sleep
 
-servo = Servo(25)
+servo = Servo(17)
 
 try:
 	while True:
-    	servo.min()
-    	sleep(0.5)
-    	servo.mid()
-    	sleep(0.5)
+    		servo.value = .5
+    		sleep(1)
 except KeyboardInterrupt:
 	print("Program stopped")
