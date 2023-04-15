@@ -1,9 +1,13 @@
 '''
+    ECE 592 Spring 2023 continued by
+    Dom Barrera
+
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
     Kishan Joshi
-    Harrison Tseng
+    Harrison Tseng 
+    
 '''
 # import necessary libraries
 import socket, keyboard
@@ -66,6 +70,10 @@ latYCoords = []
 clickX, clickY = '', ''
 ip_port = ''
 
+# Calculate the estimated GPS location of a blue object using 
+# drone altitude, pitch, roll, yaw 
+# a known GPS location of the drone when the picture was taken
+# calculated pixel coordinates of the blue object from the center of the image
 def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone_azimuth):
     """
     Parameters
