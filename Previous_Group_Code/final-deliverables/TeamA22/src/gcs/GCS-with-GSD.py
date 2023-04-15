@@ -29,7 +29,7 @@ s.bind((ip, port))
 # set constants from camera hardware
 IMAGE_HEIGHT = 1080
 IMAGE_WIDTH = 1920
-FOCAL_LENGTH = 0.0165
+FOCAL_LENGTH = 0.0165 
 SENSOR_HEIGHT = .00617
 SENSOR_WIDTH = .00455
 
@@ -48,8 +48,8 @@ plt.xlabel("Latitude")
 plt.ylabel("Longitude")
 
 # Range of Coordinates of where we fly.
-ax.axis([-78.702385, -78.691902, 35.725121, 35.729265])
-ax.imshow(img, extent=(-78.702385, -78.691902, 35.725121, 35.729265))
+ax.axis([-78.702385, -78.691902, 35.725121, 35.729265]) #TODO VERIFY COORDINATES
+ax.imshow(img, extent=(-78.702385, -78.691902, 35.725121, 35.729265)) #TODO VERIFY COORDINATES
 
 # Temporarily Initialize Map
 for i in range(100):
