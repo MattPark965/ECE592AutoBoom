@@ -40,17 +40,6 @@ rpi_ip = args.rpi_ip
 s.bind((rpi_ip, int(rpi_port)))
 
 
-# get video recording functions
-filename = 'video.avi'
-res = '480p'
-cap = cv2.VideoCapture(0)
-out = cv2.VideoWriter(filename, get_video_type(filename), 25, get_dims(cap, res))
-color = (40, 147, 200)
-
-# Check if camera opened successfully
-if (cap.isOpened()== False):
-  print("Error opening camera")
-
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
 
@@ -89,8 +78,8 @@ copter.set_ap_mode("GUIDED")
 
 print("Taking off")
 
-# setting takeoff altitude
-takeoff_alt = 25
+# setting takeoff altitude m
+takeoff_alt = 50
 
 # take off to target altitude
 copter.vehicle.simple_takeoff(takeoff_alt)
@@ -102,7 +91,7 @@ while copter.pos_alt_rel < takeoff_alt:
 
 time.sleep(5)
 
-copter.vehicle.airspeed = 5
+copter.vehicle.airspeed = 3 #m/s
 
 # parse through each waypoint in file
 for command in missionlist:
@@ -115,23 +104,6 @@ for command in missionlist:
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
         print('Distance to waypoint: %s' % (str(copter.distance_to_current_waypoint(command.x, command.y, command.z))))
         time.sleep(0.5)
-
-        # look for blue tarp frame-by-frame
-        ret, frame = cap.read()
-        frame_center_y, frame_center_x, _ = frame.shape
-
-        # perform a blue filter
-        blue = frame[..., BLU_IDX] > BLU_VAL
-        red= frame[..., RED_IDX] < RED_VAL_MAX
-        green = (frame[..., GRN_IDX] > GRN_VAL_MIN) & (frame[..., GRN_IDX] < GRN_VAL_MAX)
-
-        # get all blue objects from filtered frame
-        blue_objects = cv2.bitwise_and(blue.astype(np.uint8), red.astype(np.uint8), green.astype(np.uint8))
-
-        # set all blue targets to be white
-        blue_objects[blue_objects == 1] = 255
-        targets = detection.find_targets_process(blue_objects)
-
         # display the origin
         cv2.putText(frame, "(0,0)", \
                           (int(frame_center_x/2) + 15, int(frame_center_y/2)), fontFace = cv2.FONT_HERSHEY_DUPLEX,\
@@ -166,9 +138,6 @@ for command in missionlist:
                   # place a dot on the frame where the target was found
                   cv2.circle(frame, (target_x, target_y), radius = 5, color = (0, 255, 0), thickness = -1)
 
-              # write to video
-              out.write(frame)
-
               # Press Q on keyboard to  exit
               if cv2.waitKey(25) & 0xFF == ord('q'):
                 break
@@ -201,8 +170,8 @@ while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > f
     print("Going to waypoint")
 
 # drop bomb
-copter.bomb_away()
-print("DROPPED BOMB")
+copter.bomb_one_away()
+print("DROPPED BOMB1")
 
 # set autopilot mode to RTL
 copter.set_ap_mode("RTL")
