@@ -1,9 +1,13 @@
 '''
+    ECE 592 Spring 2023 continued by
+    Dom Barrera
+
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
     Kishan Joshi
-    Harrison Tseng
+    Harrison Tseng 
+    
 '''
 # import necessary libraries
 import socket, keyboard
@@ -12,6 +16,7 @@ import json
 import sys
 import numpy as np
 import pickle
+import NewDetection
 
 # Set up a UDP Communication Protocol
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -29,9 +34,12 @@ s.bind((ip, port))
 # set constants from camera hardware
 IMAGE_HEIGHT = 1080
 IMAGE_WIDTH = 1920
-FOCAL_LENGTH = 0.0165
-SENSOR_HEIGHT = .00617
-SENSOR_WIDTH = .00455
+# better source https://www.techtravels.org/modifying-logitech-c920/#:~:text=The%20sensor%20is%204.8mm,crop%20factor%20of%20around%207.2.
+FOCAL_LENGTH =.00367 # google c920 focal length 3.67 mm
+SENSOR_WIDTH=.0048
+SENSOR_HEIGHT= .0036
+# source for corrctions https://stackoverflow.com/questions/50544727/distance-to-object-webcam-c920hd-or-use-opencv-calibrate-py#:~:text=Focal%20Length%20(mm)%3A%203.67mm
+
 
 # Server setup successful
 print("Starting")
@@ -48,8 +56,8 @@ plt.xlabel("Latitude")
 plt.ylabel("Longitude")
 
 # Range of Coordinates of where we fly.
-ax.axis([-78.702385, -78.691902, 35.725121, 35.729265])
-ax.imshow(img, extent=(-78.702385, -78.691902, 35.725121, 35.729265))
+ax.axis([-78.702385, -78.691902, 35.725121, 35.729265]) #TODO VERIFY COORDINATES
+ax.imshow(img, extent=(-78.702385, -78.691902, 35.725121, 35.729265)) #TODO VERIFY COORDINATES
 
 # Temporarily Initialize Map
 for i in range(100):
@@ -63,6 +71,10 @@ latYCoords = []
 clickX, clickY = '', ''
 ip_port = ''
 
+# Calculate the estimated GPS location of a blue object using 
+# drone altitude, pitch, roll, yaw 
+# a known GPS location of the drone when the picture was taken
+# calculated pixel coordinates of the blue object from the center of the image
 def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone_azimuth):
     """
     Parameters
@@ -97,18 +109,12 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     PITCH = drone_azimuth[0]
     ROLL = drone_azimuth[1]
     YAW = drone_azimuth[2]
-
-    # get offset from angles in meters
-    Fy = np.tan(PITCH) * drone_alt
-    Fx = np.tan(ROLL) * drone_alt
-
-    # convert Fy and Fx offset to degrees
-    Cy = Fy * lat_lon_const
-    Cx = Fx * lat_lon_const
-
-    lat = Cy + drone_lat
-    lon = Cx + drone_lon
-
+    
+    # removed roll and pitch correction due to use of a gimble.
+    lat =  drone_lat
+    lon =  drone_lon
+    # make a correction for heading.
+    # cos / sin adjustment for pixels based on yaw angle
     #-----------------------------------------
 
 
@@ -127,7 +133,7 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
 
     #Coordinate offsets in radians
     dLat = dn/R
-    dLon = de/(R*np.cos(np.pi*lat/180))
+    dLon = (de/R)*(np.cos(np.pi*lat/180))
 
     #OffsetPosition, decimal degrees
     latO = lat + dLat * 180/np.pi

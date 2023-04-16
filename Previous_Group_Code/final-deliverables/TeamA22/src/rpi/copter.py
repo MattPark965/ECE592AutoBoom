@@ -240,7 +240,7 @@ class Copter():
         print("Home is saved as %s" % self.location_home)
 
 
-    def arm_and_takeoff(self, altitude=50, pitch_deg=12):
+    def arm_and_takeoff(self, altitude=75, pitch_deg=12):
         """
          Arms the UAV and takeoff
         Planes need a takeoff item in the mission and to be set into AUTO mode. The
@@ -396,11 +396,10 @@ class Copter():
         distancetopoint = self.get_distance_metres(targetWaypointLocation)
         return distancetopoint
 
-    def bomb_away(self):
-        servo = Servo(25)
-        # open bomb bay
-        servo.mid()
-        time.sleep(1)
-
-        servo.min()
-        time.sleep(1)
+    def bomb_one_away(self):
+        servo = Servo(17)
+	    #opens first bomb bay
+	    for i in range (3): 
+		    servo.value = 1 - (i * .1)
+		    time.sleep(.5)
+	    i = 1
