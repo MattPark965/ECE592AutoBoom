@@ -9,6 +9,7 @@
 from header import *
 import numpy as np
 from TarpDetector import *
+from GCS-with-GSD import *
 
 # Only looking to identify the blue tarp in a picture
 lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
@@ -24,7 +25,7 @@ STD_DIMENSIONS =  {
 
 
 # Get the current image to be processed (640x480p)
-def Check_Picture(image):
+def Check_Picture_Find_Coords(image):
     ''' image input should be a path to the image '''
     img = cv2.imread(image)
     center = detect_blue_cluster(img, lower_blue, upper_blue)
@@ -33,6 +34,8 @@ def Check_Picture(image):
         print(f"The center of the blue cluster is at pixel coordinates: {center}")
     else:
         print("No blue cluster detected.")
+
+    get_lat_long_of_target(center, )
     
     
 
