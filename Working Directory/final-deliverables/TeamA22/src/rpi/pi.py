@@ -1,4 +1,7 @@
 '''
+    Continued by:
+    Wesley Cowand
+
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
