@@ -1,4 +1,4 @@
-#Take camera setup - 5 second sleep time before picture taken
+#Take camera setup - 5 second sleep time/warning before picture taken
 
 import cv2
 

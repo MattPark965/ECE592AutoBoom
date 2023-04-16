@@ -1,4 +1,6 @@
-#Calculate field of view dimensions
+#Calculate field of view dimensions at 50 m altitude
+
+
 import math
 
 takeoff_alt = 50 #Altitude of 50 m for the drone
