@@ -82,7 +82,7 @@ ip_port = ''
 # drone altitude, pitch, roll, yaw 
 # a known GPS location of the drone when the picture was taken
 # calculated pixel coordinates of the blue object from the center of the image
-def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone_azimuth):
+def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone_azimuth = (0,0,0)):
     """
     Parameters
     ----------

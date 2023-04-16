@@ -24,7 +24,8 @@ Original file is located at
 
 from header import *
 from copter import Copter
-from TarpDetection import TarpDetection
+from tarpdetector import detect_blue_cluster
+from newgcs import *
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
@@ -50,7 +51,7 @@ s.bind((rpi_ip, int(rpi_port)))
 
 
 # get video recording functions
-filename = 'video.avi'
+filename = 'video.avi' #TODO Change to picture instead of video
 res = '480p'
 cap = cv2.VideoCapture(0)
 out = cv2.VideoWriter(filename, get_video_type(filename), 25, get_dims(cap, res))
@@ -69,6 +70,9 @@ time.sleep(2)
 # print current coordinates to check for good GPS signal
 print("LAT : " + str(copter.pos_lat))
 print("LON : " + str(copter.pos_lon))
+
+tmp_copter_coords = (copter.pos_lon, copter.pos_lat) #TODO we will need to do this at the time the picture is taken
+tmp_copter_P_R_Y = (copter.att_pitch_deg, copter.att_roll_deg, 0) #TODO again, at the time picture was taken
 
 # check arming status of the copter
 while not copter.is_armed():
@@ -136,9 +140,14 @@ for command in missionlist:
         if ret == True:
         # Use TarpDetector class method to find blue tarps and their center points
         
-          targets = tarp_detector.detect_blue_tarps(frame, lower_blue, upper_blue)
+            # targets is a tuple with the center x an y locations
+            targets = detect_blue_cluster(frame, lower_blue, upper_blue)
+
+            # This should print the Latitude and Longitude of the target
+            print(get_lat_long_of_target(targets, tmp_copter_coords, takeoff_alt, tmp_copter_P_R_Y))
 
         # Display the origin
+
         frame_center_y, frame_center_x, _ = frame.shape
         cv2.putText(frame, "(0,0)", \
                     (int(frame_center_x/2) + 15, int(frame_center_y/2)), fontFace=cv2.FONT_HERSHEY_DUPLEX,\

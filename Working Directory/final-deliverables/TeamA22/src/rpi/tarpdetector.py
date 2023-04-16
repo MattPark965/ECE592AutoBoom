@@ -39,4 +39,5 @@ def detect_blue_cluster(img, lower_blue, upper_blue):  # NOTE: The color ranges 
                 cY = int(M["m01"] / M["m00"]) # Calculate the center of the shape in Y coordinates
                 blue_cluster_center = (cX, cY) # returns tuple of x and y pixel coordinates
 
+    # Returns a tuple of the X and Y pixel center of the Tarp
     return blue_cluster_center
