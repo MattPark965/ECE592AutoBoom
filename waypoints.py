@@ -16,7 +16,7 @@
 '''
 
 
-from header import *
+#from header import *
 from copter import Copter
 
 # parse arguemnts from command line
