@@ -16,7 +16,7 @@
 '''
 
 
-#from header import *
+from header import *
 from copter import Copter
 
 # parse arguemnts from command line
@@ -101,3 +101,6 @@ for command in missionlist:
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
     print("GOING TO NEXT WAYPOINT")
+    time.sleep(5)
+
+copter.set_ap_mode("RTL")
