@@ -9,7 +9,7 @@ class Copter():
 
         Input:
             connection_string       - the mavproxy style connection string, like tcp:127.0.0.1:5760
-                                      default is None
+                                        default is None
             vehicle                 - dronekit vehicle object, coming from another instance (default is None)
 
 
@@ -242,7 +242,7 @@ class Copter():
 
     def arm_and_takeoff(self, altitude=75, pitch_deg=12):
         """
-         Arms the UAV and takeoff
+            Arms the UAV and takeoff
         Planes need a takeoff item in the mission and to be set into AUTO mode. The
         heading is kept constant
 
@@ -318,9 +318,9 @@ class Copter():
 
         """
         tgt = self.get_target_from_bearing(original_location=self.location_current,
-                                             ang=math.radians(angle_deg),
-                                             dist=5000,
-                                             altitude=altitude)
+                                                ang=math.radians(angle_deg),
+                                                dist=5000,
+                                                altitude=altitude)
         return(tgt)
 
     def goto(self, location):
@@ -398,8 +398,8 @@ class Copter():
 
     def bomb_one_away(self):
         servo = Servo(17)
-	    #opens first bomb bay
-	    for i in range (3): 
-		    servo.value = 1 - (i * .1)
-		    time.sleep(.5)
-	    i = 1
+        #opens first bomb bay
+        for i in range (3): 
+            servo.value = 1 - (i * .1)
+            time.sleep(.5)
+        i = 1
