@@ -1,11 +1,13 @@
 from pymavlink import mavutil
 
 # Replace the serial_port variable with the actual serial port from step 5
-serial_port = '/dev/serial/by-id/your_serial_port_here' # run "ls /dev/serial/by-id/"
+# serial_port = '/dev/serial/by-id/your_serial_port_here' # run "ls /dev/serial/by-id/"
+udp_port = 'udp:127.0.0.1:14550'
 baudrate = 57600
 
 # Connect to the flight controller
-mav = mavutil.mavlink_connection(serial_port, baud=baudrate)
+# mav = mavutil.mavlink_connection(serial_port, baud=baudrate)
+mav = mavutil.mavlink_connection(udp_port)
 
 def print_telemetry():
     while True:
