@@ -1,7 +1,7 @@
 #Calculate coords
-#Taking 9 pictures of 80.978403x45.550352 (w*l)
+#Taking 9 pictures of 80.978403x45.550352 (WxL)
 
-#Size of the rectangles that we will be taking pictures of 
+#Size of the rectangles that we will be taking pictures of (in meters)
 rect_width = 80.978403
 rect_height = 45.550352
 
