@@ -18,6 +18,7 @@
 from header import *
 from copter import Copter
 import cv2
+import time
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
@@ -92,7 +93,6 @@ cam=cv2.VideoCapture(0) #Object for video capturing
 #Set resolution based on Logitech Camera capabilities
 cam.set(3, 1920) 
 cam.set(4, 1080)
-i = 0 #Set i for naming convention used in saving images
 
 #Reusable take picture+save image function
 def take_picture():
@@ -101,10 +101,9 @@ def take_picture():
     time.sleep(5)
     print("Taking picture now!")
     time.sleep(1)
-    cv2.imshow('test_'+str(i),image) #Show image taken
+    cv2.imshow('test_'+str(j),image) #Show image taken
             
-    cv2.imwrite('/home/raspberrypi/test_'+str(i)+'.jpg', image) #Save picture to the rpi
-    i = i+1
+    cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
@@ -128,7 +127,7 @@ copter.vehicle.airspeed = 3 #m/s
 #count = 1
 
 # parse through each waypoint in file
-for command in missionlist:
+for j, command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)

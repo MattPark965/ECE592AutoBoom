@@ -19,7 +19,8 @@
 # cv2.imwrite('/home/raspberrypi/test_'+str(i)+'.jpg', image) #Save picture to the rpi
 # i = i+1
 
-
+import cv2
+import time 
 
 #Create object for video capturing
 cam=cv2.VideoCapture(0) #Object for video capturing
@@ -27,7 +28,7 @@ cam=cv2.VideoCapture(0) #Object for video capturing
 #Set resolution based on Logitech Camera capabilities
 cam.set(3, 1920) 
 cam.set(4, 1080)
-i = 0 #Set i for naming convention used in saving images
+#i = 0 #Set i for naming convention used in saving images
 
 def take_picture():
     ret, image=cam.read() #Live view of camera frame
@@ -35,10 +36,10 @@ def take_picture():
     time.sleep(5)
     print("Taking picture now!")
     time.sleep(1)
-    cv2.imshow('test_'+str(i),image) #Show image taken
+    cv2.imshow('test_'+str(j),image) #Show image taken
             
-    cv2.imwrite('/home/raspberrypi/test_'+str(i)+'.jpg', image) #Save picture to the rpi
-    i = i+1
+    cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
+    j = j+1
 
 for j in range(3):
     take_picture()
