@@ -1,7 +1,6 @@
 '''
     Continued by:
     Wesley Cowand
-
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
@@ -18,6 +17,7 @@
 
 from header import *
 from copter import Copter
+import cv2
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
@@ -80,11 +80,31 @@ missionlist = []
 file = "recon.waypoints_new"
 missionlist = copter.readmission(file)
 
-# 5m buffer for gps coordinates
-position_buffer = 5
+# 2m buffer for gps coordinates
+position_buffer = 2
 
 # print mission items for verification
 print("MISSION LIST: \n" + str(missionlist))
+
+#Create object for video capturing
+cam=cv2.VideoCapture(0) #Object for video capturing
+
+#Set resolution based on Logitech Camera capabilities
+cam.set(3, 1920) 
+cam.set(4, 1080)
+i = 0 #Set i for naming convention used in saving images
+
+#Reusable take picture+save image function
+def take_picture():
+    ret, image=cam.read() #Live view of camera frame
+    print("Taking picture in 5 seconds!")
+    time.sleep(5)
+    print("Taking picture now!")
+    time.sleep(1)
+    cv2.imshow('test_'+str(i),image) #Show image taken
+            
+    cv2.imwrite('/home/raspberrypi/test_'+str(i)+'.jpg', image) #Save picture to the rpi
+    i = i+1
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
@@ -105,12 +125,15 @@ while copter.pos_alt_rel < takeoff_alt:
 time.sleep(5)
 
 copter.vehicle.airspeed = 3 #m/s
-count = 1
+#count = 1
+
 # parse through each waypoint in file
 for command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
-    print("GOING TO NEXT WAYPOINT")
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
-        count = count + 1
+        time.sleep(0.001)
+        #count = count + 1
+    take_picture()
+    print("GOING TO NEXT WAYPOINT")
