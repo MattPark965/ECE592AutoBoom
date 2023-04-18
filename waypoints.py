@@ -94,16 +94,23 @@ cam=cv2.VideoCapture(0) #Object for video capturing
 cam.set(3, 1920) 
 cam.set(4, 1080)
 
+#Initialize vars necessary for the tarp detection code
+Targets = []
+
 #Reusable take picture+save image function
 def take_picture():
-    ret, image=cam.read() #Live view of camera frame
     print("Taking picture in 5 seconds!")
     time.sleep(5)
+    condition_yaw(0) #Sets heading north
+    ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
-    cv2.imshow('test_'+str(j),image) #Show image taken
-            
+    Tarps = Check_Picture_Find_Coords(image, copter.pos_alt_rel, (copter.lon,copter.pos_lat))
+    cv2.imshow('test_'+str(j),image) #Show image taken        
     cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
+
+    if Tarps is not None: #This loop executed if tarp is found
+        cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
