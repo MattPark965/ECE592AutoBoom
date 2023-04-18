@@ -39,7 +39,6 @@ def take_picture():
     cv2.imshow('test_'+str(j),image) #Show image taken
             
     cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
-    j = j+1
 
 for j in range(3):
     take_picture()
