@@ -25,21 +25,32 @@ parser.add_argument('--gcs_ip', default='192.168.1.148')
 parser.add_argument('--gcs_port', default='4444')
 parser.add_argument('--rpi_ip', default='192.168.1.147')
 parser.add_argument('--rpi_port', default='5555')
-parser.add_argument('--connect', default='udp:127.0.0.1:10000')
+parser.add_argument('--connect', default='udp:127.0.0.1:14551')
 args = parser.parse_args()
 
 # connect to copter on localhost
+#import argparse
+#parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
+#parser.add_argument('--connect', help="Vehicle connection target string.")
+#args = parser.parse_args()
+
+# aquire connection_string
 connection_string = args.connect
+if not connection_string:
+    sys.exit('Please specify connection string')
+
+# Connect to the Vehicle
+print('Connecting to vehicle on: %s' % connection_string)
 copter = Copter(connection_string)
 print("CONNECTED")
 
 # set up socket to send data to GCS
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-gcs_ip = args.gcs_ip
-gcs_port = int(args.gcs_port)
-rpi_port = int(args.rpi_port)
-rpi_ip = args.rpi_ip
-s.bind((rpi_ip, int(rpi_port)))
+#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+#gcs_ip = args.gcs_ip
+#gcs_port = int(args.gcs_port)
+#rpi_port = int(args.rpi_port)
+#rpi_ip = args.rpi_ip
+#s.bind((rpi_ip, int(rpi_port)))
 
 
 # setup listeners to get all messages from the copter
@@ -94,13 +105,12 @@ while copter.pos_alt_rel < takeoff_alt:
 time.sleep(5)
 
 copter.vehicle.airspeed = 3 #m/s
-
+count = 1
 # parse through each waypoint in file
 for command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
     print("GOING TO NEXT WAYPOINT")
-    time.sleep(5)
-
-copter.set_ap_mode("RTL")
+    while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
+        count = count + 1
