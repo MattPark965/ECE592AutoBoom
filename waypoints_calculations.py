@@ -10,7 +10,8 @@ latitude = 111000 #1 degree of latitude = 111 km
 longitude = 87870 #1 degree of longitude = 87.87 km 
 
 #Top right hand corner of box
-start = [35.726688, -78.694846]  
+#start = [35.726688, -78.694846]  
+start = [35.726688, -78.695573] 
 
 #Set start coordinates to be in the middle of the first box
 start[0] = start[0] - (rect_height/2)/latitude 
