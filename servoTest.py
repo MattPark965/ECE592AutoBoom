@@ -6,7 +6,7 @@ servo = Servo(17)
 i = 1
 try:
 	while True:
-		for i in range (6):
+		for i in range (3):
 			servo.value = 1 - (i * .1)
 			time.sleep(.5)
 		i = 1
