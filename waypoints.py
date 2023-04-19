@@ -145,7 +145,7 @@ copter.vehicle.airspeed = 3 #m/s
 #count = 1
 
 # parse through each waypoint in file
-for j, command in missionlist:
+for j, command in enumerate(missionlist):
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
