@@ -16,7 +16,6 @@ import json
 import sys
 import numpy as np
 import pickle
-import NewDetection
 import sys
 print("Python executable path:", sys.executable)
 

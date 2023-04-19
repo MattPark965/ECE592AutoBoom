@@ -17,7 +17,7 @@
 
 from header import *
 from copter import Copter
-from NewDetection import Check_Picture_Find_Coords
+# from NewDetection import Check_Picture_Find_Coords
 import cv2
 import time
 import sys
