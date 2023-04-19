@@ -29,7 +29,7 @@ ip = "10.153.63.80"  # Update this to the ground control station's IP address
 port = 4444
 
 # bind the server ports
-s.bind((ip, port))
+s.bind((rpi_ip, port))
 
 # set constants from camera hardware
 IMAGE_HEIGHT = 1080
