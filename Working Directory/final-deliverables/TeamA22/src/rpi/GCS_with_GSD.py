@@ -22,11 +22,10 @@ import NewDetection
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Set RPI ip address and port
-#rpi_ip = "172.20.15.100"
-rpi_ip = "127.0.0.1"
+rpi_ip = "10.154.9.244"  # Update this to the Raspberry Pi's IP address
 rpi_port = 5555
-# IP Address is the device running the SERVER
-ip = "192.168.56.1"
+# IP Address is the device running the SERVER (Ground Control Station)
+ip = "10.153.63.80"  # Update this to the ground control station's IP address
 port = 4444
 
 # bind the server ports
