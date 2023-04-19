@@ -176,15 +176,9 @@ def receive_message():
         # The type we are looking for is dictionary.
         # If the message is anything else, the message was NOT meant to be sent to the server.
         if type(decode_message) is dict:
-            # add all relavent information into lists and pass into GSD function
-            lonlat = [decode_message['current_lon'], decode_message['current_lat']]
             xy = [decode_message['target_x'], decode_message['target_y']]
-            azimuth = [decode_message['current_pitch'], decode_message['current_roll'], decode_message['current_yaw']]
-            returnGSD = get_lat_long_of_target(xy, lonlat, decode_message['current_alt'], azimuth)
-            lonXCoords.append(returnGSD[0])
-            latYCoords.append(returnGSD[1])
             # Add to plot, "s" argument is the added point's size.
-            ax.scatter(returnGSD[0], returnGSD[1], s = 5)
+            ax.scatter(xy[0], xy[1], s = 5)
             plt.pause(0.01)
         else:
             # If the message was not intended for us, print the message type.

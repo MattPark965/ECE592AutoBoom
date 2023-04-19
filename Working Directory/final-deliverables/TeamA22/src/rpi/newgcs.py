@@ -180,9 +180,9 @@ def receive_message():
         # If the message is anything else, the message was NOT meant to be sent to the server.
         if type(decode_message) is dict:
             # add all relavent information into lists and pass into GSD function
-            lonlat = [decode_message['current_lon'], decode_message['current_lat']]
-            xy = [decode_message['target_x'], decode_message['target_y']]
-            azimuth = [decode_message['current_pitch'], decode_message['current_roll'], decode_message['current_yaw']]
+            # lonlat = [decode_message['current_lon'], decode_message['current_lat']]
+            # xy = [decode_message['target_x'], decode_message['target_y']]
+            # azimuth = [decode_message['current_pitch'], decode_message['current_roll'], decode_message['current_yaw']]
             returnGSD = get_lat_long_of_target(xy, lonlat, decode_message['current_alt'], azimuth)
             lonXCoords.append(returnGSD[0])
             latYCoords.append(returnGSD[1])

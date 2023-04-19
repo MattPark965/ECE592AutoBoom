@@ -105,12 +105,23 @@ def take_picture():
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
-    Tarps = Check_Picture_Find_Coords(image, copter.pos_alt_rel, (copter.lon,copter.pos_lat))
+    Tarps = Check_Picture_Find_Coords(image, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat))
     cv2.imshow('test_'+str(j),image) #Show image taken        
     cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
     if Tarps is not None: #This loop executed if tarp is found
         cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
+        
+        packet = {
+                    "target_x" : Tarps[0],
+                    "target_y" : Tarps[1]
+                  }
+        
+        # convert to bytes for socket data transfer
+        packet_bytes = json.dumps(packet).encode('utf-8')
+        # send data to the GCS
+        s.sendto(packet_bytes, (gcs_ip, gcs_port))
+        
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
@@ -143,3 +154,37 @@ for j, command in missionlist:
         #count = count + 1
     take_picture()
     print("GOING TO NEXT WAYPOINT")
+
+# set socket behavior
+s.setblocking(0)
+
+# wait for calculated coordinates from the GCS
+while True:
+    try:
+        msg = s.recvfrom(4096)
+        data = msg[0]
+        gcsCmd = json.loads(data.decode('utf-8'))
+        print("Command Received")
+        break
+    except:
+        '''print("Waiting for GCS")'''
+
+print(gcsCmd)
+
+# create location object from GCS calculated coordinate
+targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
+# go to calculated coordinate
+copter.vehicle.simple_goto(targetCoordinate)
+print("GOING TO TARGET")
+
+# wait while the copter is travelling to the calculated coordinate
+while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
+    time.sleep(1)
+    print("Going to waypoint")
+
+# drop bomb
+copter.bomb_one_away()
+print("DROPPED BOMB1")
+
+# set autopilot mode to RTL
+copter.set_ap_mode("RTL")
