@@ -20,6 +20,8 @@ from copter import Copter
 from NewDetection import Check_Picture_Find_Coords
 import cv2
 import time
+import sys
+print("imports Completed")
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
