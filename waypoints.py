@@ -17,6 +17,7 @@
 
 from header import *
 from copter import Copter
+from NewDetection import Check_Picture_Find_Coords
 import cv2
 import time
 
@@ -46,12 +47,12 @@ copter = Copter(connection_string)
 print("CONNECTED")
 
 # set up socket to send data to GCS
-#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-#gcs_ip = args.gcs_ip
-#gcs_port = int(args.gcs_port)
-#rpi_port = int(args.rpi_port)
-#rpi_ip = args.rpi_ip
-#s.bind((rpi_ip, int(rpi_port)))
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+gcs_ip = args.gcs_ip
+gcs_port = int(args.gcs_port)
+rpi_port = int(args.rpi_port)
+rpi_ip = args.rpi_ip
+s.bind((rpi_ip, int(rpi_port)))
 
 
 # setup listeners to get all messages from the copter
@@ -101,7 +102,7 @@ Targets = []
 def take_picture():
     print("Taking picture in 5 seconds!")
     time.sleep(5)
-    condition_yaw(0) #Sets heading north
+    copter.condition_yaw(0) #Sets heading north
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
