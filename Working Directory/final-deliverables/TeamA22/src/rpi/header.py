@@ -11,7 +11,7 @@ import os
 
 #import libraries for UAV communication
 #from dronekit import connect, VehicleMode, LocationGlobalRelative, Command, Battery, LocationGlobal, Attitude
-from dronekit import connect, VehicleMode, LocationGlobalRelative, Command, Battery, LocationGlobal, Attitude
+from dronekit import VehicleMode, LocationGlobalRelative, Command, Battery, LocationGlobal, Attitude
 from pymavlink import mavutil
 import time, math, psutil, copy
 import numpy as np
