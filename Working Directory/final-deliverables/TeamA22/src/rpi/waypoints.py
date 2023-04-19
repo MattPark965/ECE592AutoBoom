@@ -62,8 +62,9 @@ copter._setup_listeners()
 time.sleep(2)
 
 # print current coordinates to check for good GPS signal
-print("LAT : " + str(copter.pos_lat))
-print("LON : " + str(copter .pos_lon))
+print("Bypass Here - FOR DEBUG ONLY🫡")
+# print("LAT : " + str(copter.pos_lat))
+# print("LON : " + str(copter .pos_lon))
 
 # check arming status of the copter
 while not copter.is_armed():
