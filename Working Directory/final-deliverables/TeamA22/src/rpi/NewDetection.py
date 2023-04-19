@@ -9,12 +9,8 @@
 from header import *
 import numpy as np
 from tarpdetector import *
-from newgcs import *
+from GCS_with_GSD import *
 from copter import *
-
-# Only looking to identify the blue tarp in a picture
-lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
-upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
 
 #Standard Dimensions (Taken from Previous Group)
 STD_DIMENSIONS =  {
@@ -27,11 +23,18 @@ STD_DIMENSIONS =  {
 
 # Get the current image to be processed (640x480p)
 def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
-    ''' image - str Filepath to an image
+    ''' 
+        The purpose of this funciton is to take a picture as an input, identify the blue tarp, 
+        output the gps coords of the center of the tarp
+
+        image - str Filepath to an image
         altitude - int height in meters
         coords - tuple coordinates where drone is at time of picture (lon, lat)
         PitchRollYaw - tuple of drone Pitch Roll Yaw at time of picture
     '''
+    # Only looking to identify the blue tarp in a picture
+    lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
+    upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
     img = cv2.imread(image)
     center = detect_blue_cluster(img, lower_blue, upper_blue)
 
@@ -42,6 +45,7 @@ def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
 
     Target_Coords = get_lat_long_of_target(center, coords, altitude)
     print(Target_Coords)
+    return Target_Coords
     
     
 
