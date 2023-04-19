@@ -17,6 +17,9 @@ import sys
 import numpy as np
 import pickle
 import NewDetection
+import sys
+print("Python executable path:", sys.executable)
+
 
 # Set up a UDP Communication Protocol
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
