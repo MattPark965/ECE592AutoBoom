@@ -22,7 +22,7 @@ import NewDetection
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Set RPI ip address and port
-rpi_ip = "172.20.15.100"
+rpi_ip = "10.154.9.244"
 rpi_port = 5555
 # IP Address is the device running the SERVER
 ip = "172.20.7.164"
