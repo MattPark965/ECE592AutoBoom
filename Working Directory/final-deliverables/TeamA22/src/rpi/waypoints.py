@@ -118,7 +118,8 @@ def take_picture():
 
     if Tarps is not None: #This loop executed if tarp is found
         cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
-        
+        cv2.imwrite('/home/raspberrypi/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
+
         packet = {
                     "target_x" : Tarps[0],
                     "target_y" : Tarps[1]
