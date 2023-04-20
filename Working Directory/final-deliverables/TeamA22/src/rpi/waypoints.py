@@ -102,10 +102,10 @@ cam.set(3, 1920)
 cam.set(4, 1080)
 
 #Initialize vars necessary for the tarp detection code
-Targets = []
+j = 0
 
 #Reusable take picture+save image function
-def take_picture():
+def take_picture(j):
     print("Taking picture in 5 seconds!")
     time.sleep(5)
     copter.condition_yaw(0) #Sets heading north
@@ -123,13 +123,12 @@ def take_picture():
         packet = {
                     "target_x" : Tarps[0],
                     "target_y" : Tarps[1]
-                  }
-        
+                  }   
         # convert to bytes for socket data transfer
         packet_bytes = json.dumps(packet).encode('utf-8')
         # send data to the GCS
         # s.sendto(packet_bytes, (gcs_ip, gcs_port))
-        
+    j=j+1     
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
@@ -156,14 +155,14 @@ copter.vehicle.airspeed = 3 #m/s
 print("Beginning path to first waypoint at 3 m/s")
 
 # parse through each waypoint in file
-for j, command in missionlist:
+for command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
         time.sleep(0.001)
         #count = count + 1
-    take_picture()
+    take_picture(j)
     print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior
