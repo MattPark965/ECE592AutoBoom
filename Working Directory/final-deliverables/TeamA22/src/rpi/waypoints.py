@@ -159,12 +159,13 @@ for command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
+    print("Going to waypoint")
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
         time.sleep(0.001)
         #count = count + 1
     take_picture(j)
     j=j+1 
-    print("GOING TO NEXT WAYPOINT")
+    #print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior
 # s.setblocking(0)
