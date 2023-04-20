@@ -143,7 +143,7 @@ takeoff_alt = 50
 copter.vehicle.simple_takeoff(takeoff_alt)
 
 # wait while copter reaches desired altitude
-while copter.pos_alt_rel < takeoff_alt:
+while copter.pos_alt_rel < takeoff_alt*0.95:
     print("Gaining altitude")
     time.sleep(1)
 
