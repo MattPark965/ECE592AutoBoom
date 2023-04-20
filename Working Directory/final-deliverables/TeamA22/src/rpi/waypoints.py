@@ -56,7 +56,7 @@ print("CONNECTED")
 # rpi_ip = args.rpi_ip
 # s.bind((rpi_ip, int(rpi_port)))
 
-# TODO FIX SOCKET AND UNCOMMENT ABOVE CODE AFTER FIXED
+# TODO FIX SOCKET AND UNCOMMENT ABOVE CODE AFTER FIXED need a change to commit
 
 
 # setup listeners to get all messages from the copter
