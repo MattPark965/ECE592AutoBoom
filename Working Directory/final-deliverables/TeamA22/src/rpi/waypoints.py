@@ -166,7 +166,7 @@ for command in missionlist:
     take_picture(j)
     j=j+1 
     #print("GOING TO NEXT WAYPOINT")
-
+    
 # set socket behavior
 # s.setblocking(0)
 
