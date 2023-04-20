@@ -17,7 +17,7 @@
 
 from header import *
 from copter import Copter
-# from NewDetection import Check_Picture_Find_Coords
+from NewDetection import Check_Picture_Find_Coords
 import cv2
 import time
 import sys
@@ -127,7 +127,7 @@ def take_picture():
         # convert to bytes for socket data transfer
         packet_bytes = json.dumps(packet).encode('utf-8')
         # send data to the GCS
-        s.sendto(packet_bytes, (gcs_ip, gcs_port))
+        # s.sendto(packet_bytes, (gcs_ip, gcs_port))
         
 
 # set copter to guided autopilot mode
@@ -163,31 +163,31 @@ for j, command in enumerate(missionlist):
     print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior
-s.setblocking(0)
+# s.setblocking(0)
 
 # wait for calculated coordinates from the GCS
-while True:
-    try:
-        msg = s.recvfrom(4096)
-        data = msg[0]
-        gcsCmd = json.loads(data.decode('utf-8'))
-        print("Command Received")
-        break
-    except:
-        '''print("Waiting for GCS")'''
+# while True:
+#     try:
+#         msg = s.recvfrom(4096)
+#         data = msg[0]
+#         gcsCmd = json.loads(data.decode('utf-8'))
+#         print("Command Received")
+#         break
+#     except:
+#         '''print("Waiting for GCS")'''
 
-print(gcsCmd)
+# print(gcsCmd)
 
 # create location object from GCS calculated coordinate
-targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
+# targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
 # go to calculated coordinate
-copter.vehicle.simple_goto(targetCoordinate)
+# copter.vehicle.simple_goto(targetCoordinate)
 print("GOING TO TARGET")
 
 # wait while the copter is travelling to the calculated coordinate
-while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
-    time.sleep(1)
-    print("Going to waypoint")
+# while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
+#     time.sleep(1)
+#     print("Going to waypoint")
 
 # drop bomb
 copter.bomb_one_away()
