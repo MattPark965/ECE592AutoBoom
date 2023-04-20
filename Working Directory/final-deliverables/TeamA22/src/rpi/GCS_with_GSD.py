@@ -24,14 +24,14 @@ print("Python executable path:", sys.executable)
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Set RPI ip address and port
-rpi_ip = "10.154.9.244"  # Update this to the Raspberry Pi's IP address
+rpi_ip = "127.0.0.1"  # Update this to the Raspberry Pi's IP address
 rpi_port = 5555
 # IP Address is the device running the SERVER (Ground Control Station)
-ip = "10.153.63.80"  # Update this to the ground control station's IP address
+ip = "10.154.60.204"  # Update this to the ground control station's IP address
 port = 4444
 
 # bind the server ports
-s.bind((rpi_ip, port))
+s.bind((ip, port))
 
 # set constants from camera hardware
 IMAGE_HEIGHT = 1080
