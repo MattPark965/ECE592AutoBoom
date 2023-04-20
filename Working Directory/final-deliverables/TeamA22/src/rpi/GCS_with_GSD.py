@@ -210,7 +210,7 @@ while True:
             # If INPUT for bombing 'y', send a list given [X, Y]
             if confirmCommand == 'y':
                 print("SENDING COORDINATES")
-                send_data = [sendYlat, sendXlon]
+                send_data = [latYCoords, lonXCoords]
                 packet = json.dumps(send_data).encode('utf-8')
                 s.sendto(bytes(packet), (rpi_ip, rpi_port)) # pi IP
                 print("SENT COORDINATES")
