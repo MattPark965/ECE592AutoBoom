@@ -145,15 +145,18 @@ copter.vehicle.simple_takeoff(takeoff_alt)
 # wait while copter reaches desired altitude
 while copter.pos_alt_rel < takeoff_alt*0.95:
     print("Gaining altitude")
+    print("/n ", copter.pos_alt_rel)
     time.sleep(1)
 
+print("Exited altitude loop, sleeping for 5 seconds.")
 time.sleep(5)
 
 copter.vehicle.airspeed = 3 #m/s
 #count = 1
+print("Beginning path to first waypoint at 3 m/s")
 
 # parse through each waypoint in file
-for j, command in enumerate(missionlist):
+for j, command in missionlist:
     # go to waypoint
     point1 = LocationGlobalRelative(command.x, command.y, command.z)
     copter.vehicle.simple_goto(point1)
