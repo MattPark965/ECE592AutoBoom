@@ -166,8 +166,8 @@ for command in missionlist:
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
         time.sleep(0.001)
         #count = count + 1
-    dummy_take_picture(j)
-    #take_picture(j)
+    #dummy_take_picture(j)
+    take_picture(j)
     j=j+1 
     #print("GOING TO NEXT WAYPOINT")
 
