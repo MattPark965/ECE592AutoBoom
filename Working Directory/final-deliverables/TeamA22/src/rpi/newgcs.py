@@ -55,7 +55,7 @@ print("Starting")
 fig, ax = plt.subplots()
 
 # Plots an image on the map under any data points.
-img = plt.imread(".\MAP.png")
+img = plt.imread("MAP.png")
 
 # Plot Labels
 plt.title("GCS")
