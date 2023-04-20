@@ -33,10 +33,10 @@ parser.add_argument('--connect', default='udp:127.0.0.1:14551')
 args = parser.parse_args()
 
 # connect to copter on localhost
-#import argparse
-#parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
-#parser.add_argument('--connect', help="Vehicle connection target string.")
-#args = parser.parse_args()
+# import argparse
+# parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
+# parser.add_argument('--connect', help="Vehicle connection target string.")
+# args = parser.parse_args()
 
 # aquire connection_string
 connection_string = args.connect
