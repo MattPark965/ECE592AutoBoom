@@ -164,11 +164,12 @@ for command in missionlist:
     copter.vehicle.simple_goto(point1)
     print("Going to waypoint")
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
-        time.sleep(0.01)
+        time.sleep(1)
+        print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
         #count = count + 1
     #dummy_take_picture(j)
-    take_picture(j)
-    j=j+1 
+    #take_picture(j)
+    #j=j+1 
     #print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior
