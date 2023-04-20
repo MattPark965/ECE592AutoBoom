@@ -71,11 +71,11 @@ print("Bypass Here - FOR DEBUG ONLY🫡")
 # print("LON : " + str(copter .pos_lon))
 
 # check arming status of the copter
-# while not copter.is_armed():
-#     # wait for safety pilot to arm
-#     print("Waiting to be armed...")
-#     time.sleep(1)
-# TODO ASK IF THIS IS NEEDED
+while not copter.is_armed():
+    # wait for safety pilot to arm
+    print("Waiting to be armed...")
+    time.sleep(1)
+
 print("ARMED")
 
 time.sleep(2)
