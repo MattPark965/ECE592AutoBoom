@@ -9,7 +9,7 @@
 from header import *
 import numpy as np
 from tarpdetector import *
-from GCS_with_GSD import *
+from newgcs import *
 from copter import *
 
 #Standard Dimensions (Taken from Previous Group)
