@@ -161,68 +161,68 @@ def onclick(event):
 fig.canvas.mpl_connect('button_press_event', onclick)
 
 # Receive Message from PI (Drone)
-def receive_message():
-    # Set RECEIVING end of communication to be nonblocking. ABSOLUTELY NECESSARY.
-    s.setblocking(0)
+# def receive_message():
+#     # Set RECEIVING end of communication to be nonblocking. ABSOLUTELY NECESSARY.
+#     #s.setblocking(0)
 
-    # Try because if you do not receive a message, you will timeout.
-    # Instead of timing out, we can keep retrying for a message.
-    try:
-        # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
-        msg = s.recvfrom(4096)
-        data = msg[0]
-        ip_port = msg[1]
-        # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
-        decode_message = json.loads(data.decode('utf-8'))
+#     # Try because if you do not receive a message, you will timeout.
+#     # Instead of timing out, we can keep retrying for a message.
+#     try:
+#         # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
+#         # msg = s.recvfrom(4096)
+#         # data = msg[0]
+#         # ip_port = msg[1]
+#         # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
+#         # decode_message = json.loads(data.decode('utf-8'))
 
-        # Currently type(decode_message) is a way of checking whether this is the data we want.
-        # The type we are looking for is dictionary.
-        # If the message is anything else, the message was NOT meant to be sent to the server.
-        if type(decode_message) is dict:
-            # add all relavent information into lists and pass into GSD function
-            # lonlat = [decode_message['current_lon'], decode_message['current_lat']]
-            # xy = [decode_message['target_x'], decode_message['target_y']]
-            # azimuth = [decode_message['current_pitch'], decode_message['current_roll'], decode_message['current_yaw']]
-            returnGSD = get_lat_long_of_target(xy, lonlat, decode_message['current_alt'], azimuth)
-            lonXCoords.append(returnGSD[0])
-            latYCoords.append(returnGSD[1])
-            # Add to plot, "s" argument is the added point's size.
-            ax.scatter(returnGSD[0], returnGSD[1], s = 5)
-            plt.pause(0.01)
-        else:
-            # If the message was not intended for us, print the message type.
-            print(type(decode_message))
+#         # Currently type(decode_message) is a way of checking whether this is the data we want.
+#         # The type we are looking for is dictionary.
+#         # If the message is anything else, the message was NOT meant to be sent to the server.
+#         # if type(decode_message) is dict:
+#             # add all relavent information into lists and pass into GSD function
+#             # lonlat = [decode_message['current_lon'], decode_message['current_lat']]
+#             # xy = [decode_message['target_x'], decode_message['target_y']]
+#             # azimuth = [decode_message['current_pitch'], decode_message['current_roll'], decode_message['current_yaw']]
+#             # returnGSD = get_lat_long_of_target(xy, lonlat, decode_message['current_alt'], azimuth)
+#             # lonXCoords.append(returnGSD[0])
+#             # latYCoords.append(returnGSD[1])
+#             # Add to plot, "s" argument is the added point's size.
+#             # ax.scatter(returnGSD[0], returnGSD[1], s = 5)
+#             # plt.pause(0.01)
+#         # else:
+#             # If the message was not intended for us, print the message type.
+#             # print(type(decode_message))
 
-    # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
-    except socket.error:
-        '''no data yet'''
+#     # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
+#     # except socket.error:
+#         # '''no data yet'''
 
 
-while True:
+# while True:
 
-    # Receive Message Protocol
-    receive_message()
+#     # Receive Message Protocol
+#     receive_message()
 
-    # Terminate GCS if 'q'
-    if keyboard.is_pressed('q'):
-        break
+#     # Terminate GCS if 'q'
+#     if keyboard.is_pressed('q'):
+#         break
 
-    if keyboard.is_pressed('c'):
-        # If click inputs were previously received:
-        if clickX and clickY:
-            sendXlon = float(clickX)
-            sendYlat = float(clickY)
-            confirmCommand = input(f"You have selected {sendYlat}, {sendXlon} as your bombing location. Confirm bombing? (y/n)")
+#     if keyboard.is_pressed('c'):
+#         # If click inputs were previously received:
+#         if clickX and clickY:
+#             sendXlon = float(clickX)
+#             sendYlat = float(clickY)
+#             confirmCommand = input(f"You have selected {sendYlat}, {sendXlon} as your bombing location. Confirm bombing? (y/n)")
 
-            # If INPUT for bombing 'y', send a list given [X, Y]
-            if confirmCommand == 'y':
-                print("SENDING COORDINATES")
-                send_data = [sendYlat, sendXlon]
-                packet = json.dumps(send_data).encode('utf-8')
-                s.sendto(bytes(packet), (rpi_ip, rpi_port)) # pi IP
-                print("SENT COORDINATES")
+#             # If INPUT for bombing 'y', send a list given [X, Y]
+#             if confirmCommand == 'y':
+#                 print("SENDING COORDINATES")
+#                 send_data = [sendYlat, sendXlon]
+#                 packet = json.dumps(send_data).encode('utf-8')
+#                 s.sendto(bytes(packet), (rpi_ip, rpi_port)) # pi IP
+#                 print("SENT COORDINATES")
 
-    plt.pause(0.01)
+#     plt.pause(0.01)
 
 # Extra Command that may be necessary / useful later
 # plt.show()
