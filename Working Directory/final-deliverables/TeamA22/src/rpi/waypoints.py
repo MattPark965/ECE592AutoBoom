@@ -193,6 +193,7 @@ print("GOING TO TARGET")
 # drop bomb
 copter.bomb_one_away()
 print("DROPPED BOMB1")
+time.sleep(2)
 
 # set autopilot mode to RTL
 copter.set_ap_mode("RTL")
