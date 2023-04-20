@@ -36,7 +36,7 @@ def take_picture():
     time.sleep(5)
     print("Taking picture now!")
     time.sleep(1)
-    cv2.imshow('test_'+str(j),image) #Show image taken
+    #cv2.imshow('test_'+str(j),image) #Show image taken
             
     cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
