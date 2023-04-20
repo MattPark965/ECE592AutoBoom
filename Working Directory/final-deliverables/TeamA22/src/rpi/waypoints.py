@@ -153,7 +153,7 @@ while copter.pos_alt_rel < takeoff_alt*0.95:
 print("Exited altitude loop, sleeping for 5 seconds.")
 time.sleep(5)
 
-copter.vehicle.airspeed = 3 #m/s
+# copter.vehicle.airspeed = 3 #cm/s
 #count = 1
 print("Beginning path to first waypoint at 3 m/s")
 
@@ -164,6 +164,7 @@ for command in missionlist:
     copter.vehicle.simple_goto(point1)
     print("Going to waypoint")
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
+        print(".")
         time.sleep(0.01)
         #count = count + 1
     #dummy_take_picture(j)
