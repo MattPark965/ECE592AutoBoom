@@ -128,7 +128,7 @@ def take_picture(j):
         packet_bytes = json.dumps(packet).encode('utf-8')
         # send data to the GCS
         # s.sendto(packet_bytes, (gcs_ip, gcs_port))
-    j=j+1     
+    
 
 # set copter to guided autopilot mode
 copter.set_ap_mode("GUIDED")
@@ -163,6 +163,7 @@ for command in missionlist:
         time.sleep(0.001)
         #count = count + 1
     take_picture(j)
+    j=j+1 
     print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior
