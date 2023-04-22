@@ -7,7 +7,7 @@ CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
 PORT = 5500  # replace with any available port number
 
 # Create socket object
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
+s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 
 # Bind socket to client IP and port
 s.bind((SERVER_IP, PORT))
