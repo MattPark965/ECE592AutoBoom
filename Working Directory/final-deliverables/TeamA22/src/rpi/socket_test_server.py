@@ -1,4 +1,5 @@
 import socket
+import time
 
 # Set up IP address and port
 LOCAL_IP = '127.0.0.1'  # replace with the IP address of the server
@@ -13,6 +14,7 @@ s.bind(LOCAL_IP, PORT)
 
 # Attempt to connect to server
 while True:
+    time.sleep(2)
     try:
         message, address = s.recvfrom(1024)
         print(message)
