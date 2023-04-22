@@ -26,14 +26,14 @@ import numpy as np
 import pickle
 
 # Set up a UDP Communication Protocol
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# # Set RPI ip address and port
-# rpi_ip = "172.20.15.100"
-# rpi_port = 5555
-# # IP Address is the device running the SERVER
-# ip = "172.20.7.164"
-# port = 4444
+# Set RPI ip address and port
+rpi_ip = "127.0.0.1"
+rpi_port = 5555
+# IP Address is the device running the SERVER
+ip = "172.20.7.164"
+port = 4444
 
 # # bind the server ports
 # s.bind((ip, port))

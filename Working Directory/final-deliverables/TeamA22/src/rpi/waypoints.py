@@ -49,15 +49,12 @@ copter = Copter(connection_string)
 print("CONNECTED")
 
 # set up socket to send data to GCS
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# gcs_ip = args.gcs_ip
-# gcs_port = int(args.gcs_port)
-# rpi_port = int(args.rpi_port)
-# rpi_ip = args.rpi_ip
-# s.bind((rpi_ip, int(rpi_port)))
-
-# TODO FIX SOCKET AND UNCOMMENT ABOVE CODE AFTER FIXED need a change to commit
-
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+gcs_ip = args.gcs_ip
+gcs_port = int(args.gcs_port)
+rpi_port = int(args.rpi_port)
+rpi_ip = args.rpi_ip
+s.bind((rpi_ip, int(rpi_port)))
 
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
