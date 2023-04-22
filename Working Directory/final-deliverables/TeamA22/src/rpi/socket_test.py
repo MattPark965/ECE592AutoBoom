@@ -21,6 +21,7 @@ while True:
     message = 'Hello, server!'
     s.sendto(message.encode(), (CLIENT_IP, 5500))
     time.sleep(2) 
+    print("debug 🫡")
     
 
 # Receive message from server
