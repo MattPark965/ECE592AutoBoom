@@ -6,7 +6,7 @@ LOCAL_IP = '127.0.0.1'  # replace with the IP address of the server
 PORT = 5500  # replace with the port number used by the server
 
 # Create socket object
-s = socket.socket(socket.AF_INET6, socket.SOCK_DGRAM)
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.setblocking(0)
 
 # Set socket timeout to 1 second
