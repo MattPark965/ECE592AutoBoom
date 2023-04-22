@@ -18,7 +18,7 @@ s.bind((SERVER_IP, PORT))
 # Send message to server
 while True:
     message = 'Hello, server!'
-    s.sendto(message, (CLIENT_IP, PORT))
+    s.sendto(message.encode(), (CLIENT_IP, PORT))
     time.sleep(2) 
     
 
