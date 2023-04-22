@@ -3,7 +3,8 @@ import time
 
 # Set up IP addresses and port
 SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
-CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
+# CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
+CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
 PORT = 5501  # replace with any available port number
 
 # Create socket object
