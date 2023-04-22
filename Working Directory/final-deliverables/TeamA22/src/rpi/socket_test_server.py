@@ -17,7 +17,7 @@ s.bind((LOCAL_IP, PORT))
 while True:
     time.sleep(2)
     try:
-        message, address = s.recvfrom(1024)
+        message, address = s.recvfrom(4096)
         print(message)
         print('Server is running and listening on', address, 'port', PORT)
     except socket.error:
