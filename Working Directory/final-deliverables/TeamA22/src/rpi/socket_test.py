@@ -3,7 +3,7 @@ import socket
 # Set up IP addresses and port
 SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
 CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
-PORT = 1234  # replace with any available port number
+PORT = 5500  # replace with any available port number
 
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
