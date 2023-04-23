@@ -131,7 +131,7 @@ j = 0
 def take_picture(j):
     print("Taking picture in 5 seconds!")
     time.sleep(5)
-    copter.condition_yaw(0) #Sets heading north
+    copter.vehicle.condition_yaw(0) #Sets heading north
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
