@@ -221,7 +221,7 @@ while copter.pos_alt_rel < takeoff_alt*0.95:
 
 print("Exited altitude loop, sleeping for 2 seconds.")
 time.sleep(2)
-copter.vehicle.condition_yaw(0) #Sets heading north
+copter.condition_yaw(0) #Sets heading north
 print("Setting heading, then sleeping for 5 seconds")
 time.sleep(5)
 

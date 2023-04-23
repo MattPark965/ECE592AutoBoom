@@ -402,7 +402,7 @@ class Copter():
         else:
             is_relative = 0 #yaw is an absolute angle
         # create the CONDITION_YAW command using command_long_encode()
-        msg = self.message_factory.command_long_encode(
+        msg = self.vehicle.message_factory.command_long_encode(
             0, 0,    # target system, target component
             mavutil.mavlink.MAV_CMD_CONDITION_YAW, #command
             0, #confirmation
@@ -412,7 +412,7 @@ class Copter():
             is_relative, # param 4, relative offset 1, absolute angle 0
             0, 0, 0)    # param 5 ~ 7 not used
         # send command to vehicle
-        self.send_mavlink(msg)
+        self.vehicle.send_mavlink(msg)
 
         # delay to wait until yaw of copter is at desired yaw angle
         time.sleep(3)
