@@ -68,7 +68,7 @@ PORT = 5501  # replace with any available port number
 
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
-s.setblocking(0)
+# s.setblocking(0)
 
 while True:
     message = 'Hello, server!'
