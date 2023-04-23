@@ -58,6 +58,17 @@ print("CONNECTED")
 # rpi_ip = args.rpi_ip
 #s.bind((rpi_ip, int(rpi_port)))
 
+# setup listeners to get all messages from the copter
+copter._setup_listeners()
+
+# give some time for all changes to take place
+time.sleep(2)
+
+# print current coordinates to check for good GPS signal
+print("Bypass Here - FOR DEBUG ONLY🫡")
+# print("LAT : " + str(copter.pos_lat))
+# print("LON : " + str(copter .pos_lon))
+
 # Set up IP address and port
 LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
 PORT = 5501  # replace with the port number used by the server
@@ -70,17 +81,6 @@ s.setblocking(0)
 # s.settimeout(1)
 s.bind((LOCAL_IP, PORT))
 print("Server bind complete.")
-
-# setup listeners to get all messages from the copter
-copter._setup_listeners()
-
-# give some time for all changes to take place
-time.sleep(2)
-
-# print current coordinates to check for good GPS signal
-print("Bypass Here - FOR DEBUG ONLY🫡")
-# print("LAT : " + str(copter.pos_lat))
-# print("LON : " + str(copter .pos_lon))
 
 # check arming status of the copter
 while not copter.is_armed():
