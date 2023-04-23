@@ -157,6 +157,9 @@ def dummy_take_picture(j):
     print(j)
 
 def tarp_centering():
+    lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
+    upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
+    
     centered = False
     while not centered and TARGET_ALTITUDE>=20:
         # Read the image from the drone's camera
