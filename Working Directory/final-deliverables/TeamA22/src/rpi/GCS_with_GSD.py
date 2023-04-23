@@ -20,7 +20,7 @@ print("Python executable path:", sys.executable)
 
 # Set up IP address and port
 SERVER_IP = '127.0.0.1' 
-LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
+LOCAL_IP = '192.168.1.224'  # replace with the IP address of the server
 PORT = 5501  # replace with the port number used by the server
 
 # Create socket object
