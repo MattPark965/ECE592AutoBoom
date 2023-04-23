@@ -30,6 +30,16 @@ s.setblocking(0)
 # s.settimeout(1)
 s.bind((LOCAL_IP, PORT))
 
+# Attempt to connect to server
+while True:
+    time.sleep(2)
+    try:
+        message, address = s.recvfrom(4096)
+        print(message)
+        print('Server is running and listening on', address, 'port', PORT)
+    except socket.error:
+        print('Server is not running or not listening at port', PORT)
+
 # # Set up a UDP Communication Protocol
 # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
@@ -178,7 +188,7 @@ def receive_message():
         time.sleep(2)    
         try:
             msg, address = s.recvfrom(4096)
-            print(message)
+            print(msg)
             print('Server is running and listening on', address, 'port', PORT)
             # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
             # msg = s.recvfrom(4096)
