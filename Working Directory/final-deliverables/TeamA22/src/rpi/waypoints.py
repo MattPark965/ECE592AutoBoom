@@ -152,6 +152,51 @@ def take_picture(j):
 
 def dummy_take_picture(j):
     print(j)
+
+def tarp_centering():
+    centered = False
+    while not centered:
+        # Read the image from the drone's camera
+        ret, image=cam.read()
+        #IMPLEMENT CAMERA CAPTURE HERE
+        cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
+
+
+        # Get the center of the tarp using the detect_blue_cluster() function
+        tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
+
+        # Define the image center
+        image_center = (image.shape[1] // 2, image.shape[0] // 2)
+
+        # Calculate the pixel difference between the image center and the tarp center
+        dx = tarp_center[0] - image_center[1]
+        dy = tarp_center[1] - image_center[0]
+
+        # Check if the tarp is centered within 5% of the image dimensions
+        if abs(dx) < 0.05 * image.shape[1] and abs(dy) < 0.05 * image.shape[0]:
+            centered = True
+            print("Tarp centered")
+            continue
+
+        # The below sets the difference in meters by 1/10 of the pixel differences
+        incremental_distance_x =  dx*.1
+        incremental_distance_y =  dy*.1
+
+
+        # Update the current location
+        currentLocation = vehicle.location.global_relative_frame
+
+        # Update the target location based on the calculated incremental distances
+        targetLocation = get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y, TARGET_ALTITUDE)
+
+        # Command the drone to move to the updated target location
+        vehicle.simple_goto(targetLocation)
+        TARGET_ALTITUDE -= 2.5 
+        print("Drone is moving to center over the tarp")
+        time.sleep(1)
+
+
+
     
 
 # set copter to guided autopilot mode
@@ -234,6 +279,10 @@ while True:
 # go to calculated coordinate
 # copter.vehicle.simple_goto(targetCoordinate)
 print("GOING TO TARGET")
+
+
+#tarp centering 
+tarp_centering()
 
 # wait while the copter is travelling to the calculated coordinate
 # while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
