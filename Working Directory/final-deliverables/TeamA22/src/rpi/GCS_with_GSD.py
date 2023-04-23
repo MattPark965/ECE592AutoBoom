@@ -187,10 +187,11 @@ def receive_message():
     # Instead of timing out, we can keep retrying for a message.
     while True:
         time.sleep(2)    
+        msg, address = s.recvfrom(4096)
+        print(msg)
+        print('Server is running and listening on', address, 'port', PORT)
         try:
             msg, address = s.recvfrom(4096)
-            print(msg)
-            print('Server is running and listening on', address, 'port', PORT)
             # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
             # msg = s.recvfrom(4096)
             data = msg[0]
