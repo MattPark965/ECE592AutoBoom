@@ -213,11 +213,11 @@ for command in missionlist:
 #s.setblocking(0)
 
 while True:
+    message = 'Hello, server!'
+    s.sendto(message.encode(), (CLIENT_IP, PORT))
+    time.sleep(2) 
+    print("debug 🫡")
     try:
-        message = 'Hello, server!'
-        s.sendto(message.encode(), (CLIENT_IP, PORT))
-        time.sleep(2) 
-        print("debug 🫡")
         msg = s.recv(1024)
         print('Received from server:', data.decode())       
         # msg = s.recvfrom(4096)
