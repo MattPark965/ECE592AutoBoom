@@ -18,6 +18,7 @@
 from header import *
 from copter import Copter
 from NewDetection import Check_Picture_Find_Coords
+from tarpdetector import detect_blue_cluster
 import cv2
 import time
 import sys
@@ -131,7 +132,7 @@ j = 0
 def take_picture(j):
     print("Taking picture in 5 seconds!")
     time.sleep(5)
-    copter.vehicle.condition_yaw(0) #Sets heading north
+    # copter.vehicle.condition_yaw(0) #Sets heading north
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
@@ -219,6 +220,8 @@ while copter.pos_alt_rel < takeoff_alt*0.95:
     time.sleep(1)
 
 print("Exited altitude loop, sleeping for 5 seconds.")
+copter.vehicle.condition_yaw(0) #Sets heading north
+print("Setting heading.")
 time.sleep(5)
 
 # copter.vehicle.airspeed = 3 #m/s
