@@ -68,6 +68,17 @@ PORT = 5501  # replace with any available port number
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 
+while True:
+    message = 'Hello, server!'
+    s.sendto(message.encode(), (CLIENT_IP, PORT))
+    time.sleep(2) 
+    print("debug 🫡")
+    
+
+# Receive message from server
+data = s.recv(1024)
+print('Received from server:', data.decode())
+
 
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
