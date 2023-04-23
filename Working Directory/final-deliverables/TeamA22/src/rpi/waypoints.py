@@ -56,7 +56,18 @@ print("CONNECTED")
 # gcs_port = int(args.gcs_port)
 # rpi_port = int(args.rpi_port)
 # rpi_ip = args.rpi_ip
-#s.bind((rpi_ip, int(rpi_port)))
+# s.bind((rpi_ip, int(rpi_port)))
+
+# Set up IP addresses and port
+SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
+# CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
+#CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
+CLIENT_IP = '10.153.46.216'
+PORT = 5501  # replace with any available port number
+
+# Create socket object
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
+
 
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
@@ -68,19 +79,6 @@ time.sleep(2)
 print("Bypass Here - FOR DEBUG ONLY🫡")
 # print("LAT : " + str(copter.pos_lat))
 # print("LON : " + str(copter .pos_lon))
-
-# Set up IP address and port
-LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
-PORT = 5501  # replace with the port number used by the server
-
-# Create socket object
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.setblocking(0)
-
-# Set socket timeout to 1 second
-# s.settimeout(1)
-s.bind((LOCAL_IP, PORT))
-print("Server bind complete.")
 
 # check arming status of the copter
 while not copter.is_armed():
@@ -200,23 +198,24 @@ for command in missionlist:
 
 # print(gcsCmd)
 
-# Attempt to connect to server
+#set socket behavior
+#s.setblocking(0)
+
 while True:
-    time.sleep(2)
-    message, address = s.recvfrom(4096)
-    print(message)
-    print('Server is running and listening on', address, 'port', PORT)
     try:
-        message, address = s.recvfrom(4096)
-        print(message)
-        data = message[0]
+        message = 'Hello, server!'
+        s.sendto(message.encode(), (CLIENT_IP, PORT))
+        time.sleep(2) 
+        print("debug 🫡")
+        msg = s.recv(1024)
+        print('Received from server:', data.decode())       
+        # msg = s.recvfrom(4096)
+        data = msg[0]
         gcsCmd = json.loads(data.decode('utf-8'))
         print("Command Received")
         break
-    except socket.error:
-        '''print('Server is not running or not listening at port', PORT)'''
-    
-
+    except:
+        '''print("Waiting for GCS")'''
 
 
 # create location object from GCS calculated coordinate
