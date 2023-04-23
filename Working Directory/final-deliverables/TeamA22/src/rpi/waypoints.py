@@ -67,6 +67,7 @@ PORT = 5501  # replace with any available port number
 
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
+s.setblocking(0)
 
 # while True:
 #     message = 'Hello, server!'
@@ -155,7 +156,7 @@ def dummy_take_picture(j):
 
 def tarp_centering():
     centered = False
-    while not centered:
+    while not centered and TARGET_ALTITUDE>=20:
         # Read the image from the drone's camera
         ret, image=cam.read()
         #IMPLEMENT CAMERA CAPTURE HERE
@@ -255,7 +256,7 @@ for command in missionlist:
 # print(gcsCmd)
 
 #set socket behavior
-#s.setblocking(0)
+
 
 while True:
     message = 'Hello, server!'
