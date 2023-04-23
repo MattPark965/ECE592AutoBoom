@@ -17,7 +17,7 @@
 
 from header import *
 from copter import Copter
-#from NewDetection import Check_Picture_Find_Coords
+from NewDetection import Check_Picture_Find_Coords
 import cv2
 import time
 import sys
@@ -68,11 +68,11 @@ PORT = 5501  # replace with any available port number
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 
-while True:
-    message = 'Hello, server!'
-    s.sendto(message.encode(), (CLIENT_IP, PORT))
-    time.sleep(2) 
-    print("debug 🫡")
+# while True:
+#     message = 'Hello, server!'
+#     s.sendto(message.encode(), (CLIENT_IP, PORT))
+#     time.sleep(2) 
+#     print("debug 🫡")
     
 
 # Receive message from server
@@ -189,8 +189,8 @@ for command in missionlist:
         print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
         #count = count + 1
     #dummy_take_picture(j)
-    #take_picture(j)
-    #j=j+1 
+    take_picture(j)
+    j=j+1 
     #print("GOING TO NEXT WAYPOINT")
 
 # set socket behavior

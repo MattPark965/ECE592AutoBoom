@@ -19,6 +19,7 @@ import sys
 print("Python executable path:", sys.executable)
 
 # Set up IP address and port
+SERVER_IP = '127.0.0.1' 
 LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
 PORT = 5501  # replace with the port number used by the server
 
@@ -31,14 +32,14 @@ s.setblocking(0)
 s.bind((LOCAL_IP, PORT))
 
 # Attempt to connect to server
-while True:
-    time.sleep(2)
-    try:
-        message, address = s.recvfrom(4096)
-        print(message)
-        print('Server is running and listening on', address, 'port', PORT)
-    except socket.error:
-        print('Server is not running or not listening at port', PORT)
+# while True:
+#     time.sleep(2)
+#     try:
+#         message, address = s.recvfrom(4096)
+#         print(message)
+#         print('Server is running and listening on', address, 'port', PORT)
+#     except socket.error:
+#         print('Server is not running or not listening at port', PORT)
 
 # # Set up a UDP Communication Protocol
 # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -235,7 +236,7 @@ while True:
                 print("SENDING COORDINATES")
                 send_data = [latYCoords, lonXCoords]
                 packet = json.dumps(send_data).encode('utf-8')
-                s.sendto(bytes(packet), (rpi_ip, rpi_port)) # pi IP
+                s.sendto(bytes(packet), (SERVER_IP, PORT)) # pi IP
                 print("SENT COORDINATES")
 
     plt.pause(0.01)
