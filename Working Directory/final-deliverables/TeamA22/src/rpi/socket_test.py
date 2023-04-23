@@ -20,7 +20,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 # Send message to server
 while True:
     message = 'Hello, server!'
-    s.sendto(message.encode(), (CLIENT_IP, 5500))
+    s.sendto(message.encode(), (CLIENT_IP, PORT))
     time.sleep(2) 
     print("debug 🫡")
     
