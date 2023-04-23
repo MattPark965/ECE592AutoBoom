@@ -32,15 +32,15 @@ s.setblocking(0)
 # s.settimeout(1)
 s.bind((LOCAL_IP, PORT))
 
-# Attempt to connect to server
-while True:
-    time.sleep(2)
-    try:
-        message, address = s.recvfrom(4096)
-        print(message)
-        print('Server is running and listening on', address, 'port', PORT)
-    except socket.error:
-        print('Server is not running or not listening at port', PORT)
+# # Attempt to connect to server
+# while True:
+#     time.sleep(2)
+#     try:
+#         message, address = s.recvfrom(4096)
+#         print(message)
+#         print('Server is running and listening on', address, 'port', PORT)
+#     except socket.error:
+#         print('Server is not running or not listening at port', PORT)
 
 # # Set up a UDP Communication Protocol
 # s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
