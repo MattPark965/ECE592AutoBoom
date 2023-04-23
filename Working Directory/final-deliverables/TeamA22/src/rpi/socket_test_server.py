@@ -2,8 +2,8 @@ import socket
 import time
 
 # Set up IP address and port
-LOCAL_IP = '10.154.47.145'  # replace with the IP address of the server
-PORT = 5500  # replace with the port number used by the server
+LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
+PORT = 5501  # replace with the port number used by the server
 
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
