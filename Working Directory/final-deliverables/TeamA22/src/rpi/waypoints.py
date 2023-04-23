@@ -277,9 +277,9 @@ while True:
 
 
 # create location object from GCS calculated coordinate
-# targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
+targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
 # go to calculated coordinate
-# copter.vehicle.simple_goto(targetCoordinate)
+copter.vehicle.simple_goto(targetCoordinate)
 print("GOING TO TARGET")
 
 
