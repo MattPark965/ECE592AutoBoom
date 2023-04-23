@@ -19,7 +19,8 @@ import sys
 print("Python executable path:", sys.executable)
 
 # Set up IP address and port
-SERVER_IP = '127.0.0.1' 
+# SERVER_IP = '127.0.0.1' 
+SERVER_IP = '0.0.0.0' 
 LOCAL_IP = '192.168.1.224'  # replace with the IP address of the server
 PORT = 5501  # replace with the port number used by the server
 
