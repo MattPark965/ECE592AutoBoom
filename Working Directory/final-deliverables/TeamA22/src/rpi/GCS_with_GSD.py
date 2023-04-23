@@ -17,21 +17,32 @@ import sys
 import numpy as np
 import pickle
 import sys
+import time
 print("Python executable path:", sys.executable)
 
 
-# Set up a UDP Communication Protocol
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# # Set up a UDP Communication Protocol
+# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
-# Set RPI ip address and port
-rpi_ip = "127.0.0.1"  # Update this to the Raspberry Pi's IP address
-rpi_port = 5555
-# IP Address is the device running the SERVER (Ground Control Station)
-ip = "10.154.60.204"  # Update this to the ground control station's IP address
-port = 4444
+# # Set RPI ip address and port
+# rpi_ip = "127.0.0.1"  # Update this to the Raspberry Pi's IP address
+# rpi_port = 5555
+# # IP Address is the device running the SERVER (Ground Control Station)
+# ip = "10.154.60.204"  # Update this to the ground control station's IP address
+# port = 4444
 
-# bind the server ports
-s.bind((ip, port))
+# # bind the server ports
+# s.bind((ip, port))
+
+# Set up IP addresses and port
+SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
+# CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
+#CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
+CLIENT_IP = '10.153.46.216'
+PORT = 5501  # replace with any available port number
+
+# Create socket object
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 
 # set constants from camera hardware
 IMAGE_HEIGHT = 1080
@@ -159,6 +170,37 @@ def onclick(event):
 # Make/Enable Click Events
 fig.canvas.mpl_connect('button_press_event', onclick)
 
+# # Receive Message from PI (Drone)
+# def receive_message():
+#     # Set RECEIVING end of communication to be nonblocking. ABSOLUTELY NECESSARY.
+#     s.setblocking(0)
+
+#     # Try because if you do not receive a message, you will timeout.
+#     # Instead of timing out, we can keep retrying for a message.
+#     try:
+#         # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
+#         msg = s.recvfrom(4096)
+#         data = msg[0]
+#         ip_port = msg[1]
+#         # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
+#         decode_message = json.loads(data.decode('utf-8'))
+
+#         # Currently type(decode_message) is a way of checking whether this is the data we want.
+#         # The type we are looking for is dictionary.
+#         # If the message is anything else, the message was NOT meant to be sent to the server.
+#         if type(decode_message) is dict:
+#             xy = [decode_message['target_x'], decode_message['target_y']]
+#             # Add to plot, "s" argument is the added point's size.
+#             ax.scatter(xy[0], xy[1], s = 5)
+#             plt.pause(0.01)
+#         else:
+#             # If the message was not intended for us, print the message type.
+#             print(type(decode_message))
+
+#     # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
+#     except socket.error:
+#         '''no data yet'''
+
 # Receive Message from PI (Drone)
 def receive_message():
     # Set RECEIVING end of communication to be nonblocking. ABSOLUTELY NECESSARY.
@@ -166,30 +208,36 @@ def receive_message():
 
     # Try because if you do not receive a message, you will timeout.
     # Instead of timing out, we can keep retrying for a message.
-    try:
-        # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
-        msg = s.recvfrom(4096)
-        data = msg[0]
-        ip_port = msg[1]
-        # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
-        decode_message = json.loads(data.decode('utf-8'))
+    while True:
+        message = 'Hello, server!'
+        s.sendto(message.encode(), (CLIENT_IP, PORT))
+        time.sleep(2) 
+        print("debug 🫡")
+        try:
+            # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
+            message = s.recv(4096)
+            print('Received from server:', data.decode())
 
-        # Currently type(decode_message) is a way of checking whether this is the data we want.
-        # The type we are looking for is dictionary.
-        # If the message is anything else, the message was NOT meant to be sent to the server.
-        if type(decode_message) is dict:
-            xy = [decode_message['target_x'], decode_message['target_y']]
-            # Add to plot, "s" argument is the added point's size.
-            ax.scatter(xy[0], xy[1], s = 5)
-            plt.pause(0.01)
-        else:
-            # If the message was not intended for us, print the message type.
-            print(type(decode_message))
+            data = message[0]
+            ip_port = message[1]
+            # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
+            decode_message = json.loads(data.decode('utf-8'))
 
-    # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
-    except socket.error:
-        '''no data yet'''
+            # Currently type(decode_message) is a way of checking whether this is the data we want.
+            # The type we are looking for is dictionary.
+            # If the message is anything else, the message was NOT meant to be sent to the server.
+            if type(decode_message) is dict:
+                xy = [decode_message['target_x'], decode_message['target_y']]
+                # Add to plot, "s" argument is the added point's size.
+                ax.scatter(xy[0], xy[1], s = 5)
+                plt.pause(0.01)
+            else:
+                # If the message was not intended for us, print the message type.
+                print(type(decode_message))
 
+        # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
+        except socket.error:
+            '''no data yet'''
 
 while True:
 

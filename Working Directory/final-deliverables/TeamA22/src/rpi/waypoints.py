@@ -21,6 +21,8 @@ from copter import Copter
 import cv2
 import time
 import sys
+import socket
+import time
 print("imports Completed")
 
 # parse arguemnts from command line
@@ -48,13 +50,26 @@ print('Connecting to vehicle on: %s' % connection_string)
 copter = Copter(connection_string)
 print("CONNECTED")
 
-# set up socket to send data to GCS
+# # set up socket to send data to GCS
+# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+# gcs_ip = args.gcs_ip
+# gcs_port = int(args.gcs_port)
+# rpi_port = int(args.rpi_port)
+# rpi_ip = args.rpi_ip
+#s.bind((rpi_ip, int(rpi_port)))
+
+# Set up IP address and port
+LOCAL_IP = '10.153.46.216'  # replace with the IP address of the server
+PORT = 5501  # replace with the port number used by the server
+
+# Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-gcs_ip = args.gcs_ip
-gcs_port = int(args.gcs_port)
-rpi_port = int(args.rpi_port)
-rpi_ip = args.rpi_ip
-s.bind((rpi_ip, int(rpi_port)))
+s.setblocking(0)
+
+# Set socket timeout to 1 second
+# s.settimeout(1)
+s.bind((LOCAL_IP, PORT))
+print("Server bind complete.")
 
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
@@ -184,6 +199,25 @@ for command in missionlist:
 #         '''print("Waiting for GCS")'''
 
 # print(gcsCmd)
+
+# Attempt to connect to server
+while True:
+    time.sleep(2)
+    message, address = s.recvfrom(4096)
+    print(message)
+    print('Server is running and listening on', address, 'port', PORT)
+    try:
+        message, address = s.recvfrom(4096)
+        print(message)
+        data = message[0]
+        gcsCmd = json.loads(data.decode('utf-8'))
+        print("Command Received")
+        break
+    except socket.error:
+        '''print('Server is not running or not listening at port', PORT)'''
+    
+
+
 
 # create location object from GCS calculated coordinate
 # targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
