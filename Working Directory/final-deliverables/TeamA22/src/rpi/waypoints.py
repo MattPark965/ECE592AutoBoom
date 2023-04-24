@@ -160,7 +160,7 @@ def take_picture(j):
         # convert to bytes for socket data transfer
         packet_bytes = json.dumps(packet).encode('utf-8')
         # send data to the GCS
-        # s.sendto(packet_bytes, (gcs_ip, gcs_port))
+        s.sendto(packet_bytes, (CLIENT_IP, PORT))
 
 def dummy_take_picture(j):
     print(j)
@@ -196,8 +196,8 @@ def tarp_centering():
             continue
 
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx*.1
-        incremental_distance_y =  dy*.1
+        incremental_distance_x =  dx*.1*((50-TARGET_ALTITUDE)/50)
+        incremental_distance_y =  dy*.1*((50-TARGET_ALTITUDE)/50)
 
 
         # Update the current location
