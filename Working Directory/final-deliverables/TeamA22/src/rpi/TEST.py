@@ -1,6 +1,6 @@
 import cv2
 import os
-
+import numpy as np
 cwd = os.getcwd()
 
 def detect_blue_cluster(img, lower_blue, upper_blue):  # NOTE: The color ranges are in HSV
