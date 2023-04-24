@@ -237,6 +237,14 @@ copter.condition_yaw(0) #Sets heading north
 print("Setting heading, then sleeping for 5 seconds")
 time.sleep(5)
 
+#### ------------------------ DELETE AFTER TESTING
+
+take_picture(20)
+print("sleeping, RTL is no errors")
+time.sleep(20)
+
+#### ------------------------
+
 # copter.vehicle.airspeed = 3 #m/s
 #count = 1
 print("Beginning path to first waypoint at 3 m/s")
