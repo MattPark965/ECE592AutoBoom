@@ -19,13 +19,15 @@ from header import *
 from copter import Copter
 from NewDetection import Check_Picture_Find_Coords
 from tarpdetector import detect_blue_cluster
-import os
 import cv2
 import time
 import sys
 import socket
 import time
+import os
 print("imports Completed")
+
+cwd = os.getcwd()
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
@@ -137,18 +139,19 @@ def take_picture(j):
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
-    # Get the current working directory
-    cwd = os.getcwd()
-
     imagefilename = os.path.join(cwd, f'test_{j}.jpg')
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
+    # imagefilename = f'~/ece592/ECE592AutoBoom/test_'+str(j)+'.jpg'
+    # cv2.imwrite(imagefilename, image)  # Save picture to the rpi
     Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat))
     #cv2.imshow('test_'+str(j),image) #Show image taken        
     #cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
     if Tarps is not None: #This loop executed if tarp is found
         cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
-        cv2.imwrite('~/ece592/ECE592AutoBoom/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
+        imagefilename = os.path.join(cwd, f'test_{j}_marked.jpg')
+        cv2.imwrite(imagefilename, image)  # Save picture to the rpi
+        # cv2.imwrite('~/ece592/ECE592AutoBoom/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
 
         packet = {
                     "target_x" : Tarps[0],
@@ -171,12 +174,10 @@ def tarp_centering():
         # Read the image from the drone's camera
         ret, image=cam.read()
         #IMPLEMENT CAMERA CAPTURE HERE
-        # Get the current working directory
-        cwd = os.getcwd()
-
-        imagefilename = os.path.join(cwd, f'tarp.jpg')
+        # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
+        imagefilename = os.path.join(cwd, f'centering_image.jpg')
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
-        image = cv2.imread(imagefilename)
+
 
         # Get the center of the tarp using the detect_blue_cluster() function
         tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
