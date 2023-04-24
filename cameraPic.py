@@ -56,7 +56,7 @@ def take_picture(j):
     #Tarps = Check_Picture_Find_Coords(image, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat))
     # cv2.imshow('test_'+str(j),image) #Show image taken        
     cwd = os.getcwd()
-
+#
     imagefilename = os.path.join(cwd, f'test_{j}.jpg')
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
     # if Tarps is not None: #This loop executed if tarp is found
