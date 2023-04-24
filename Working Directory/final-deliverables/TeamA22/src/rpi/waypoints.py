@@ -239,7 +239,7 @@ time.sleep(5)
 
 #### ------------------------ DELETE AFTER TESTING
 
-take_picture(20)
+take_picture(21)
 print("sleeping, RTL is no errors")
 copter.set_ap_mode("RTL")
 time.sleep(200)
