@@ -148,7 +148,7 @@ def take_picture(j):
     #cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
     if Tarps is not None: #This loop executed if tarp is found
-        cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
+        # cv2.circle(image, (Tarps[0], Tarps[1]), radius = 5, color = (0, 255, 0), thickness = -1)
         imagefilename = os.path.join(cwd, f'test_{j}_marked.jpg')
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
         # cv2.imwrite('~/ece592/ECE592AutoBoom/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
@@ -220,7 +220,7 @@ copter.set_ap_mode("GUIDED")
 print("Taking off")
 
 # setting takeoff altitude m
-takeoff_alt = 50
+takeoff_alt = 30
 
 # take off to target altitude
 copter.vehicle.simple_takeoff(takeoff_alt)
