@@ -21,6 +21,7 @@
 
 import cv2
 import time 
+import os
 
 #Create object for video capturing
 cam=cv2.VideoCapture(0) #Object for video capturing
