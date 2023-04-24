@@ -241,7 +241,8 @@ time.sleep(5)
 
 take_picture(20)
 print("sleeping, RTL is no errors")
-time.sleep(20)
+copter.set_ap_mode("RTL")
+time.sleep(200)
 
 #### ------------------------
 
