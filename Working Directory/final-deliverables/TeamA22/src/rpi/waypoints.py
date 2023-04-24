@@ -170,15 +170,16 @@ def tarp_centering():
     upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
 
     centered = False
-    while not centered and TARGET_ALTITUDE>=20:
+    while not centered:
         # Read the image from the drone's camera
         ret, image=cam.read()
         #IMPLEMENT CAMERA CAPTURE HERE
+        cwd = os.getcwd()
         # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
         imagefilename = os.path.join(cwd, f'centering_image.jpg')
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
 
-
+        image = cv2.imread(imagefilename)
         # Get the center of the tarp using the detect_blue_cluster() function
         tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
 
@@ -196,19 +197,19 @@ def tarp_centering():
             continue
 
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx*.1*((50-TARGET_ALTITUDE)/50)
-        incremental_distance_y =  dy*.1*((50-TARGET_ALTITUDE)/50)
+        incremental_distance_x =  dx*.075
+        incremental_distance_y =  dy*.075
 
 
         # Update the current location
         currentLocation = copter.vehicle.location.global_relative_frame
 
         # Update the target location based on the calculated incremental distances
-        targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y, TARGET_ALTITUDE)
+        targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
 
         # Command the drone to move to the updated target location
         copter.vehicle.simple_goto(targetLocation)
-        TARGET_ALTITUDE -= 2.5 
+        
         print("Drone is moving to center over the tarp")
         time.sleep(1)
     
