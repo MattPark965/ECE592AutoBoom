@@ -171,8 +171,12 @@ def tarp_centering():
         # Read the image from the drone's camera
         ret, image=cam.read()
         #IMPLEMENT CAMERA CAPTURE HERE
-        cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
+        # Get the current working directory
+        cwd = os.getcwd()
 
+        imagefilename = os.path.join(cwd, f'tarp.jpg')
+        cv2.imwrite(imagefilename, image)  # Save picture to the rpi
+        image = cv2.imread(imagefilename)
 
         # Get the center of the tarp using the detect_blue_cluster() function
         tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
