@@ -19,6 +19,7 @@ from header import *
 from copter import Copter
 from NewDetection import Check_Picture_Find_Coords
 from tarpdetector import detect_blue_cluster
+import os
 import cv2
 import time
 import sys
@@ -136,7 +137,10 @@ def take_picture(j):
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
-    imagefilename = f'~/ece592/ECE592AutoBoom/test_'+str(j)+'.jpg'
+    # Get the current working directory
+    cwd = os.getcwd()
+
+    imagefilename = os.path.join(cwd, f'test_{j}.jpg')
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
     Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat))
     #cv2.imshow('test_'+str(j),image) #Show image taken        
