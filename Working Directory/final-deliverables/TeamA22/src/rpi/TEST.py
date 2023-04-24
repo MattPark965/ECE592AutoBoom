@@ -36,7 +36,7 @@ def detect_blue_cluster(img, lower_blue, upper_blue):  # NOTE: The color ranges 
 # Get the current working directory
 cwd = os.getcwd()
 
-imagefilename = os.path.join(cwd, f'test_20.jpg')
+imagefilename = os.path.join(cwd, f'test_21.jpg')
 
 image = cv2.imread(imagefilename)
 
