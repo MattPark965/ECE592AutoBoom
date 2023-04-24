@@ -40,7 +40,7 @@ imagefilename = os.path.join(cwd, f'test_21.jpg')
 
 image = cv2.imread(imagefilename)
 
-lower_blue = np.array([110, 50, 50])  # Lower bound of the blue color range in HSV
-upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
+lower_blue = np.array([130, 50, 50])  # Lower bound of the blue color range in HSV
+upper_blue = np.array([180, 255, 255])  # Upper bound of the blue color range in HSV
 
 print(detect_blue_cluster(image,lower_blue,upper_blue))
