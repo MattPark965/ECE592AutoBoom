@@ -315,7 +315,7 @@ while True:
 
 
 # create location object from GCS calculated coordinate
-targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
+targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], 40) # drops altitude to 40 to center over target
 # go to calculated coordinate
 copter.vehicle.simple_goto(targetCoordinate)
 print("GOING TO TARGET")
@@ -323,6 +323,9 @@ print("GOING TO TARGET")
 
 #tarp centering 
 tarp_centering()
+targetCoordinate = LocationGlobal((copter.pos_lon,copter.pos_lat, 20)) # Updates targ coord to where it centered at 40m
+copter.vehicle.simple_goto(targetCoordinate)
+tarp_centering() # centers again at 20M
 
 # wait while the copter is travelling to the calculated coordinate
 # while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
