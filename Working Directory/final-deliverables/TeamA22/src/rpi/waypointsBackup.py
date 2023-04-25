@@ -163,9 +163,14 @@ def tarp_centering():
             print("Tarp centered")
             continue
 
+        # As in the Check Image Get Coords function Here is the calculated values for each pixel in meters
+        PixelMetersWidth = 0.0341
+        PixelMetersHeight = 0.0455
+
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x = dx * .075
-        incremental_distance_y = dy * .075
+        incremental_distance_x = dx * PixelMetersWidth
+        incremental_distance_y = dy * PixelMetersHeight
+
 
         # Update the current location
         currentLocation = copter.vehicle.location.global_relative_frame
