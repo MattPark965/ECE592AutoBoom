@@ -9,7 +9,7 @@
 from header import *
 import numpy as np
 from tarpdetector import *
-from newgcs import *
+from GCS_with_GSD import *
 from copter import *
 
 #Standard Dimensions (Taken from Previous Group)
@@ -34,7 +34,7 @@ def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
     '''
     # Define the lower and upper boundaries for blue color in BGR format
     lower_blue = np.array([80, 0, 0])
-    upper_blue = np.array([195, 50, 50])
+    upper_blue = np.array([160, 75, 35])
     img = cv2.imread(image)
     center = detect_blue_cluster(img, lower_blue, upper_blue)
 
