@@ -134,7 +134,7 @@ def take_picture(j):
 
 def tarp_centering():
     lower_blue = np.array([80, 0, 0])  # Lower bound of the blue color range in HSV
-    upper_blue = np.array([195, 50, 50])  # Upper bound of the blue color range in HSV
+    upper_blue = np.array([255, 50, 50])  # Upper bound of the blue color range in HSV
 
     centered = False
     while not centered:
