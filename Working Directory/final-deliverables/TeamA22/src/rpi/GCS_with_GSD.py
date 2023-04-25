@@ -22,15 +22,15 @@ print("Python executable path:", sys.executable)
 SERVER_IP = '127.0.0.1' 
 LOCAL_IP = '10.155.58.30'  # replace with the IP address of the server
 #LOCAL_IP = '0.0.0.0'  # replace with the IP address of the server
-PORT = 5500  # replace with the port number used by the server
-
+PORTpi = 6000  # replace with the port number used by the server
+PORTgcs = 5501
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-s.setblocking(0)
+#s.setblocking(0)
 
 # Set socket timeout to 1 second
 # s.settimeout(1)
-s.bind((LOCAL_IP, PORT))
+s.bind((LOCAL_IP, PORTgcs))
 
 # # Attempt to connect to server
 # while True:
@@ -193,7 +193,7 @@ def receive_message():
         # print('Server is running and listening on', address, 'port', PORT)
         try:
             time.sleep(2)  
-            msg, address = s.recvfrom(4096)
+            msg = s.recvfrom(4096)
             # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
             # msg = s.recvfrom(4096)
             data = msg[0]
@@ -215,7 +215,7 @@ def receive_message():
 
         # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
         except socket.error:
-            '''print('Server is not running or not listening at port', PORT)'''
+            '''print('Server is not running or not listening at port', PORTpi)'''
 
 
 while True:
@@ -237,10 +237,11 @@ while True:
             # If INPUT for bombing 'y', send a list given [X, Y]
             if confirmCommand == 'y':
                 print("SENDING COORDINATES")
-                send_data = [latYCoords, lonXCoords]
+                send_data = [sendYlat, sendXlon]
                 packet = json.dumps(send_data).encode('utf-8')
-                s.sendto(bytes(packet), (SERVER_IP, PORT)) # pi IP
+                s.sendto(bytes(packet), (SERVER_IP, PORTpi)) # pi IP
                 print("SENT COORDINATES")
+                time.sleep(2)
 
     plt.pause(0.01)
 
