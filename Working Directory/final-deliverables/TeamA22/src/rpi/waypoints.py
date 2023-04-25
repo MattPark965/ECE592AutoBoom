@@ -25,9 +25,17 @@ import sys
 import socket
 import time
 import os
+import MissionPlanner #import *
+# clr.AddReference(“MissionPlanner.Utilities”) # includes the Utilities class
+from MissionPlanner.Utilities import Locationwp
 print("imports Completed")
 
 cwd = os.getcwd()
+item = MissionPlanner.Utilities.Locationwp()
+alt = 30
+MissionPlanner.Utilities.Locationwp.alt.SetValue(item,alt)
+print("Altitude changed to 30 m")
+
 
 # parse arguemnts from command line
 parser = argparse.ArgumentParser()
