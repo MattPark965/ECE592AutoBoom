@@ -39,7 +39,7 @@ def detect_blue_cluster(img, lower_blue, upper_blue):
     img_center = (img.shape[1] // 2, img.shape[0] // 2)
     if blue_cluster_centertemp is not None:
         offset1 = (img_center[0] - blue_cluster_centertemp[0])
-        offset2 = (img_center[1] - blue_cluster_center[1])
+        offset2 = (img_center[1] - blue_cluster_centertemp[1])
         blue_cluster_center = ((blue_cluster_centertemp[0] + offset1), (blue_cluster_centertemp[1] + offset2))
 
 
