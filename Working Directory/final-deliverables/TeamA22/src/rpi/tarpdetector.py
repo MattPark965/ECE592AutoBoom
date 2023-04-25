@@ -24,6 +24,7 @@ def detect_blue_cluster(img, lower_blue, upper_blue):
 
     # Initialize variables to store blue cluster center and max contour area
     blue_cluster_center = None
+    blue_cluster_centertemp = None
     max_area = 0
 
     for contour in contours:
@@ -34,12 +35,12 @@ def detect_blue_cluster(img, lower_blue, upper_blue):
             if M["m00"] != 0:
                 cX = int(M["m10"] / M["m00"])
                 cY = int(M["m01"] / M["m00"])
-                blue_cluster_center = (cX, cY)
+                blue_cluster_centertemp = (cX, cY)
     img_center = (img.shape[1] // 2, img.shape[0] // 2)
     if blue_cluster_center is not None:
-        offset1 = (img_center[0] - blue_cluster_center[0])
+        offset1 = (img_center[0] - blue_cluster_centertemp[0])
         offset2 = (img_center[1] - blue_cluster_center[1])
-        blue_cluster_center[0] = blue_cluster_center[0] + offset1
-        blue_cluster_center[1] = blue_cluster_center[1] + offset2
+        blue_cluster_center = ((blue_cluster_centertemp[0] + offset1), (blue_cluster_centertemp[1] + offset2))
+
 
     return blue_cluster_center
