@@ -220,7 +220,7 @@ copter.set_ap_mode("GUIDED")
 print("Taking off")
 
 # setting takeoff altitude m
-takeoff_alt = 30
+takeoff_alt = 50
 
 # take off to target altitude
 copter.vehicle.simple_takeoff(takeoff_alt)
