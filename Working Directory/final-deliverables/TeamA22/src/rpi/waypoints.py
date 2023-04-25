@@ -237,14 +237,14 @@ copter.condition_yaw(0) #Sets heading north
 print("Setting heading, then sleeping for 5 seconds")
 time.sleep(5)
 
-#### ------------------------ DELETE AFTER TESTING
+# #### ------------------------ DELETE AFTER TESTING
 
-take_picture(21)
-print("sleeping, RTL is no errors")
-copter.set_ap_mode("RTL")
-time.sleep(200)
+# take_picture(22)
+# print("sleeping, RTL is no errors")
+# copter.set_ap_mode("RTL")
+# time.sleep(200)
 
-#### ------------------------
+# #### ------------------------
 
 # copter.vehicle.airspeed = 3 #m/s
 #count = 1
