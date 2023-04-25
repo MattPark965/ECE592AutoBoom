@@ -16,7 +16,7 @@ import numpy as np # Import NumPy for np array processing
 def detect_blue_cluster(img, lower_blue, upper_blue):
     # Create a binary mask using the specified blue color range in BGR format
     mask = cv2.inRange(img, lower_blue, upper_blue)
-
+    mask = cv2.GaussianBlur(mask, (9, 9), 0)
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
