@@ -30,7 +30,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Set socket timeout to 1 second
 # s.settimeout(1)
-s.bind((LOCAL_IP, PORTgcs))
+#s.bind((LOCAL_IP, PORTgcs))
 
 # # Attempt to connect to server
 # while True:
