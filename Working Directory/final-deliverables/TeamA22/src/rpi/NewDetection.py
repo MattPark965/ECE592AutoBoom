@@ -32,9 +32,9 @@ def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
         coords - tuple coordinates where drone is at time of picture (lon, lat)
         PitchRollYaw - tuple of drone Pitch Roll Yaw at time of picture
     '''
-    # Only looking to identify the blue tarp in a picture
-    lower_blue = np.array([90, 50, 70])  # Lower bound of the blue color range in HSV
-    upper_blue = np.array([128, 255, 255])  # Upper bound of the blue color range in HSV
+    # Define the lower and upper boundaries for blue color in BGR format
+    lower_blue = np.array([80, 0, 0])
+    upper_blue = np.array([195, 50, 50])
     img = cv2.imread(image)
     center = detect_blue_cluster(img, lower_blue, upper_blue)
 
