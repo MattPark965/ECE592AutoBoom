@@ -196,7 +196,7 @@ def tarp_centering():
             print("Tarp centered")
             continue
 
-        # As in the Check Image Get Coords function Here is the calculation for pixel size in meters
+        # As in the Check Image Get Coords function Here is the calculated values for each pixel in meters
         PixelMetersWidth  = 0.0341
         PixelMetersHeight = 0.0455
 

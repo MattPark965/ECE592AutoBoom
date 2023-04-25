@@ -59,7 +59,7 @@ SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
 CLIENT_IP = '192.168.1.224'
 PORT = 5501  # replace with any available port number
 
-
+globalFlag = 0
 
 
 # setup listeners to get all messages from the copter
@@ -128,23 +128,13 @@ def take_picture(j):
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
         # cv2.imwrite('~/ece592/ECE592AutoBoom/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
 
-        packet = {
-            "target_x": Tarps[0],
-            "target_y": Tarps[1]
-        }
-        # convert to bytes for socket data transfer
-        packet_bytes = json.dumps(packet).encode('utf-8')
-        # send data to the GCS
-        s.sendto(packet_bytes, (CLIENT_IP, PORT))
+        globalFlag = 1
 
-
-def dummy_take_picture(j):
-    print(j)
 
 
 def tarp_centering():
-    lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
-    upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
+    lower_blue = np.array([80, 0, 0])  # Lower bound of the blue color range in HSV
+    upper_blue = np.array([195, 50, 50])  # Upper bound of the blue color range in HSV
 
     centered = False
     while not centered:
@@ -215,7 +205,7 @@ print("Setting heading, then sleeping for 5 seconds")
 time.sleep(5)
 
 
-# copter.vehicle.airspeed = 3 #m/s
+#copter.vehicle.airspeed = 3 #m/s
 # count = 1
 print("Beginning path to first waypoint at 3 m/s")
 
@@ -232,43 +222,17 @@ for command in missionlist:
     # dummy_take_picture(j)
     take_picture(j)
     j = j + 1
+    if globalFlag==1:
+        tarp_centering()
+        # drop bomb
+        copter.bomb_one_away()
+        print("DROPPED BOMB1")
+        time.sleep(2)
+        print("RETURN TO LAUNCH MISSION SUCCESS")
+        # set autopilot mode to RTL
+        copter.set_ap_mode("RTL")
+        break
+
     # print("GOING TO NEXT WAYPOINT")
 
-message = 'Hello, server!'
-s.sendto(message.encode(), (CLIENT_IP, PORT))
-time.sleep(2)
-print("debug 🫡")
 
-while True:
-    try:
-        msg = s.recv(1024)
-        print('Received from server:', data.decode())
-        # msg = s.recvfrom(4096)
-        data = msg[0]
-        gcsCmd = json.loads(data.decode('utf-8'))
-        print("Command Received")
-        break
-    except:
-        '''print("Waiting for GCS")'''
-
-# create location object from GCS calculated coordinate
-targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
-# go to calculated coordinate
-copter.vehicle.simple_goto(targetCoordinate)
-print("GOING TO TARGET")
-
-# tarp centering
-tarp_centering()
-
-# wait while the copter is travelling to the calculated coordinate
-# while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
-#     time.sleep(1)
-#     print("Going to waypoint")
-
-# drop bomb
-copter.bomb_one_away()
-print("DROPPED BOMB1")
-time.sleep(2)
-
-# set autopilot mode to RTL
-copter.set_ap_mode("RTL")
