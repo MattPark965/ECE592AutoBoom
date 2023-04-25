@@ -221,7 +221,7 @@ def receive_message():
 while True:
 
     # Receive Message Protocol
-    receive_message()
+    #receive_message()
 
     # Terminate GCS if 'q'
     if keyboard.is_pressed('q'):
