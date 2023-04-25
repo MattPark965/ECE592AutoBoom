@@ -166,8 +166,8 @@ def dummy_take_picture(j):
     print(j)
 
 def tarp_centering():
-    lower_blue = np.array([90, 50, 50])  # Lower bound of the blue color range in HSV
-    upper_blue = np.array([150, 255, 255])  # Upper bound of the blue color range in HSV
+    lower_blue = np.array([80, 0, 0])  # Lower bound of the blue color range in HSV
+    upper_blue = np.array([195, 50, 50])  # Upper bound of the blue color range in HSV
 
     centered = False
     while not centered:
@@ -196,9 +196,13 @@ def tarp_centering():
             print("Tarp centered")
             continue
 
+        # As in the Check Image Get Coords function Here is the calculation for pixel size in meters
+        PixelMetersWidth  = 0.0341
+        PixelMetersHeight = 0.0455
+
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx*.075
-        incremental_distance_y =  dy*.075
+        incremental_distance_x =  dx * PixelMetersWidth
+        incremental_distance_y =  dy * PixelMetersHeight
 
 
         # Update the current location
