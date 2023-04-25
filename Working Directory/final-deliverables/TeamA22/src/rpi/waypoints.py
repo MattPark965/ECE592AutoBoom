@@ -170,7 +170,7 @@ def tarp_centering():
     upper_blue = np.array([255, 50, 50])  # Upper bound of the blue color range in HSV
 
     centered = False
-    while not centered:
+    while not (centered):
         # Read the image from the drone's camera
         ret, image=cam.read()
         #IMPLEMENT CAMERA CAPTURE HERE
@@ -213,9 +213,10 @@ def tarp_centering():
 
         # Command the drone to move to the updated target location
         copter.vehicle.simple_goto(targetLocation)
-        
+
         print("Drone is moving to center over the tarp")
-        time.sleep(1)
+        time.sleep(5)
+
     
 
 # set copter to guided autopilot mode
