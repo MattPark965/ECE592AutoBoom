@@ -76,12 +76,12 @@ SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
 # CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
 #CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
 CLIENT_IP = '192.168.1.224'
-PORT = 5501  # replace with any available port number
-
+PORTpi = 6000 # replace with any available port number
+PORTgcs = 5501
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
 # s.setblocking(0)
-
+s.bind((SERVER_IP, PORTpi))
 # while True:
 #     message = 'Hello, server!'
 #     s.sendto(message.encode(), (CLIENT_IP, PORT))
@@ -168,7 +168,7 @@ def take_picture(j):
         # convert to bytes for socket data transfer
         packet_bytes = json.dumps(packet).encode('utf-8')
         # send data to the GCS
-        s.sendto(packet_bytes, (CLIENT_IP, PORT))
+        s.sendto(packet_bytes, (CLIENT_IP, PORTgcs))
 
 def dummy_take_picture(j):
     print(j)
@@ -296,30 +296,32 @@ for command in missionlist:
 
 #set socket behavior
 
-message = 'Hello, server!'
-s.sendto(message.encode(), (CLIENT_IP, PORT))
-time.sleep(2) 
+#message = 'Hello, server!'
+#s.sendto(message.encode(), (CLIENT_IP, PORT))
+#time.sleep(2) 
 print("debug 🫡")
 
-while True:
-    try:
-        msg = s.recv(1024)
-        print('Received from server:', data.decode())       
-        # msg = s.recvfrom(4096)
-        data = msg[0]
-        gcsCmd = json.loads(data.decode('utf-8'))
-        print("Command Received")
-        break
-    except:
-        '''print("Waiting for GCS")'''
+#while True:
+ #   try:
+msg = s.recvfrom(4096)
+#print('Received from server:', data.decode())       
+        #msg = s.recvfrom(4096)
+print(msg)
+data = msg[0]
+print (data)
+gcsCmd = json.loads(data.decode('utf-8'))
+print("Command Received")
+  #      break
+  #  except:
+        #'''print("Waiting for GCS")'''
 
 
 # create location object from GCS calculated coordinate
 targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], takeoff_alt)
 # go to calculated coordinate
 copter.vehicle.simple_goto(targetCoordinate)
-print("GOING TO TARGET")
-
+print("GOING TO TARGET and sleeping for 15")
+time.sleep(15)
 
 #tarp centering 
 tarp_centering()
