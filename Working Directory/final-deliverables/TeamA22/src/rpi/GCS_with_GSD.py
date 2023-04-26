@@ -1,6 +1,10 @@
 '''
     ECE 592 Spring 2023 continued by
     Dom Barrera
+    Matt Parker
+    Amy Deepee
+    Wesley Cowand
+    Victor Minin
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
@@ -121,7 +125,8 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     drone_lat = drone_lat_long_coor[1]
     drone_lon = drone_lat_long_coor[0]
 
-    east_west_const =  1/(111111*np.cos(38*np.pi/180))
+    # east_west_const =  1/(111111*np.cos(38*np.pi/180)) ??? Ask Dom
+    east_west_const =  1/(111111 * np.cos(drone_lat * np.pi/180)) # Modified line
     north_south_const = 1/111111 # deg/meters
 
     lat_lon_const = 1/111111 # deg/meters

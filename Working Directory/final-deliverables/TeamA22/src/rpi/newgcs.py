@@ -10,6 +10,10 @@ Original file is located at
 '''
     ECE 592 Spring 2023 continued by
     Dom Barrera
+    Matt Parker
+    Amy Deepee
+    Wesley Cowand
+    Victor Minin
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
