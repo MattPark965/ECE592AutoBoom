@@ -120,7 +120,7 @@ copter.clear_mission()
 
 # load recon grid flight plan to copter
 missionlist = []
-file = "recon.waypoints_new"
+file = "recon.waypoints_4:26"
 missionlist = copter.readmission(file)
 
 # 2m buffer for gps coordinates
