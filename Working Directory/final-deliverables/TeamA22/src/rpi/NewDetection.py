@@ -22,7 +22,7 @@ STD_DIMENSIONS =  {
 
 
 # Get the current image to be processed (640x480p)
-def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
+def Check_Picture_Find_Coords(image, altitude:int, coords:tuple, count):
     ''' 
         The purpose of this funciton is to take a picture as an input, identify the blue tarp, 
         output the gps coords of the center of the tarp
@@ -30,13 +30,13 @@ def Check_Picture_Find_Coords(image, altitude:int, coords:tuple):
         image - str Filepath to an image
         altitude - int height in meters
         coords - tuple coordinates where drone is at time of picture (lon, lat)
-        PitchRollYaw - tuple of drone Pitch Roll Yaw at time of picture
+        count - how to save the mask with a unique num
     '''
     # Define the lower and upper boundaries for blue color in BGR format
     lower_blue = np.array([80, 0, 0])
     upper_blue = np.array([160, 75, 35])
     img = cv2.imread(image)
-    center = detect_blue_cluster(img, lower_blue, upper_blue)
+    center = detect_blue_cluster(img, lower_blue, upper_blue, count)
 
     if center is not None:
         print(f"The center of the blue cluster is at pixel coordinates: {center}")

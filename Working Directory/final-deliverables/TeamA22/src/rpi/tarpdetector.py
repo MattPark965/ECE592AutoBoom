@@ -9,17 +9,21 @@ Original file is located at
 
 import cv2  # Import OpenCV for image processing
 import numpy as np # Import NumPy for np array processing
+import os
 
 # The below is a function that returns the center of a cluster of blue pixels
 # If there is no blue in the image then it returns None
 
-def detect_blue_cluster(img, lower_blue, upper_blue):
+def detect_blue_cluster(img, lower_blue, upper_blue, count):
     # Create a binary mask using the specified blue color range in BGR format
+    cwd = os.getcwd()
     lower_blue = np.array([80, 0, 0])
     upper_blue = np.array([160, 75, 35])
     mask = cv2.inRange(img, lower_blue, upper_blue)
     mask = cv2.GaussianBlur(mask, (9, 9), 0)
     mask = cv2.medianBlur(mask, 9) # Might be overkill - comment out if needed
+    imagefilename = os.path.join(cwd, f'MASK_{count}.jpg')
+    cv2.imwrite(imagefilename, mask)
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 

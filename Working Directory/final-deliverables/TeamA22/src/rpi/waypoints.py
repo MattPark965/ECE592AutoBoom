@@ -151,7 +151,7 @@ def take_picture(j):
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
     # imagefilename = f'~/ece592/ECE592AutoBoom/test_'+str(j)+'.jpg'
     # cv2.imwrite(imagefilename, image)  # Save picture to the rpi
-    Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat))
+    Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat), j)
     #cv2.imshow('test_'+str(j),image) #Show image taken        
     #cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
 
