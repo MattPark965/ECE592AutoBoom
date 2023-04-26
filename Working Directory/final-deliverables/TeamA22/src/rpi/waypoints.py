@@ -71,7 +71,7 @@ print("CONNECTED")
 # s.bind((rpi_ip, int(rpi_port)))
 
 # Set up IP addresses and port
-SERVER_IP = '127.0.0.1'  # replace with the IP address of the server
+SERVER_IP = '192.168.1.164'  # replace with the IP address of the server
 # SERVER_IP = '0.0.0.0'  # replace with the IP address of the server
 # CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
 #CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
