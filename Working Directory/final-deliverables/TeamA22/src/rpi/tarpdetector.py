@@ -19,6 +19,7 @@ def detect_blue_cluster(img, lower_blue, upper_blue):
     upper_blue = np.array([160, 75, 35])
     mask = cv2.inRange(img, lower_blue, upper_blue)
     mask = cv2.GaussianBlur(mask, (9, 9), 0)
+    mask = cv2.medianBlur(mask, 9) # Might be overkill - comment out if needed
     # Find contours in the mask
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
