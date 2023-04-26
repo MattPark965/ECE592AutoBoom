@@ -176,7 +176,7 @@ def dummy_take_picture(j):
 def tarp_centering():
     lower_blue = np.array([80, 0, 0])  # Lower bound of the blue color range in HSV
     upper_blue = np.array([160, 75, 35])  # Upper bound of the blue color range in HSV
-
+    j = 0
     centered = False
     while not (centered):
         # Read the image from the drone's camera
@@ -184,10 +184,11 @@ def tarp_centering():
         #IMPLEMENT CAMERA CAPTURE HERE
         cwd = os.getcwd()
         # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
-        imagefilename = os.path.join(cwd, f'centering_image.jpg')
+        imagefilename = os.path.join(cwd, f'centering_image_{j}.jpg')
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
 
         image = cv2.imread(imagefilename)
+        j+=1
         # Get the center of the tarp using the detect_blue_cluster() function
         tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
 
