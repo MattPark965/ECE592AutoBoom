@@ -231,8 +231,8 @@ def tarp_centering():
         PixelMetersHeight = 0.0455
 
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx * PixelMetersWidth
-        incremental_distance_y =  dy * PixelMetersHeight
+        incremental_distance_x =  dx * -PixelMetersWidth
+        incremental_distance_y =  dy * -PixelMetersHeight
 
 
         # Update the current location
