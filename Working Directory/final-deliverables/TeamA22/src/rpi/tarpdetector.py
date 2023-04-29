@@ -17,8 +17,8 @@ import os
 def detect_blue_cluster(img, lower_blue, upper_blue, count):
     # Create a binary mask using the specified blue color range in BGR format
     cwd = os.getcwd()
-    lower_blue = np.array([80, 0, 0])
-    upper_blue = np.array([160, 75, 35])
+    lower_blue = np.array([0, 80, 0])
+    upper_blue = np.array([250, 250, 35])
     mask = cv2.inRange(img, lower_blue, upper_blue)
     mask = cv2.GaussianBlur(mask, (9, 9), 0)
     mask = cv2.medianBlur(mask, 9) # Might be overkill - comment out if needed
