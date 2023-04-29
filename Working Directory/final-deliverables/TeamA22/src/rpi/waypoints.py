@@ -141,9 +141,8 @@ j = 0
 
 #Reusable take picture+save image function
 def take_picture(j):
-    print("Taking picture in 5 seconds!")
-    time.sleep(5)
-    # copter.vehicle.condition_yaw(0) #Sets heading north
+    print("Taking picture in 3 seconds!")
+    time.sleep(3)
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
