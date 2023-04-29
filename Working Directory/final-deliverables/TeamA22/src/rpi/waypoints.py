@@ -323,9 +323,9 @@ targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], 50) # drops alti
 copter.vehicle.simple_goto(targetCoordinate)
 print("Going to click")
 
-while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
+while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], 50) > float(position_buffer)):
         time.sleep(1)
-        print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
+        print(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt), float(position_buffer))
 #print("GOING TO TARGET and sleeping for 15")
 print("Sleeping for 2 seconds before starting centering.")
 time.sleep(2)
@@ -334,6 +334,9 @@ time.sleep(2)
 tarp_centering()
 targetCoordinate = LocationGlobal((copter.pos_lon,copter.pos_lat, 20)) # Updates targ coord to where it centered at 40m
 copter.vehicle.simple_goto(targetCoordinate)
+while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], 50) > float(position_buffer)):
+        time.sleep(1)
+        print(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt), float(position_buffer))
 tarp_centering() # centers again at 20M
 
 # wait while the copter is travelling to the calculated coordinate
