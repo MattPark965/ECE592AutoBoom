@@ -48,6 +48,8 @@ def detect_blue_cluster(img, lower_blue, upper_blue, count):
         # offset2 = (img_center[1] - blue_cluster_centertemp[1])
         offset2 = (blue_cluster_centertemp[1] - img_center[1]) 
         blue_cluster_center = ((blue_cluster_centertemp[0] + offset1), (blue_cluster_centertemp[1] + offset2))
-
-
-    return blue_cluster_center
+        print(f'calculated blue cluster center: {blue_cluster_center}')
+        return blue_cluster_center
+    
+    print('no cluster: (0,0)')
+    return (0,0)
