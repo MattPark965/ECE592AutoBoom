@@ -34,7 +34,7 @@ def Check_Picture_Find_Coords(image, altitude:int, coords:tuple, count):
     '''
     # Define the lower and upper boundaries for blue color in BGR format
     lower_blue = np.array([0, 80, 0])
-    upper_blue = np.array([255, 250, 55])
+    upper_blue = np.array([255, 250, 45])
     img = cv2.imread(image)
     center = detect_blue_cluster(img, lower_blue, upper_blue, count)
 

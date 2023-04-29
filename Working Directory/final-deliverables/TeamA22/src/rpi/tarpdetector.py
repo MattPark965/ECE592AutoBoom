@@ -18,7 +18,7 @@ def detect_blue_cluster(img, lower_blue, upper_blue, count=15):
     # Create a binary mask using the specified blue color range in BGR format
     cwd = os.getcwd()
     lower_blue = np.array([0, 80, 0])
-    upper_blue = np.array([250, 250, 55])
+    upper_blue = np.array([250, 250, 45])
     mask = cv2.inRange(img, lower_blue, upper_blue)
     mask = cv2.GaussianBlur(mask, (9, 9), 0)
     mask = cv2.medianBlur(mask, 9) # Might be overkill - comment out if needed
@@ -29,7 +29,6 @@ def detect_blue_cluster(img, lower_blue, upper_blue, count=15):
 
     # Initialize variables to store blue cluster center and max contour area
     blue_cluster_center = None
-    blue_cluster_centertemp = None
     max_area = 0
 
     for contour in contours:
@@ -40,14 +39,12 @@ def detect_blue_cluster(img, lower_blue, upper_blue, count=15):
             if M["m00"] != 0:
                 cX = int(M["m10"] / M["m00"])
                 cY = int(M["m01"] / M["m00"])
-                blue_cluster_centertemp = (cX, cY)
+                blue_cluster_center = (cX, cY)
     img_center = (img.shape[1] // 2, img.shape[0] // 2)
-    if blue_cluster_centertemp is not None:
-        # offset1 = (img_center[0] - blue_cluster_centertemp[0])
-        offset1 = (blue_cluster_centertemp[0] - img_center[0])
-        # offset2 = (img_center[1] - blue_cluster_centertemp[1])
-        offset2 = (blue_cluster_centertemp[1] - img_center[1]) 
-        blue_cluster_center = ((blue_cluster_centertemp[0] + offset1), (blue_cluster_centertemp[1] + offset2))
+    if blue_cluster_center is not None:
+        offset = (blue_cluster_center[0] - img_center[0], blue_cluster_center[1] - img_center[1])
+        blue_cluster_center = (img_center[0] + offset[0], img_center[1] + offset[1])
+        cv2.circle(img, blue_cluster_center, 10, (0, 0, 255), -1)
         print(f'calculated blue cluster center: {blue_cluster_center}')
         return blue_cluster_center
     
