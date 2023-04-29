@@ -304,6 +304,7 @@ print("debug 🫡")
 
 #while True:
  #   try:
+print("Waiting for GCS")
 msg = s.recvfrom(4096)
 #print('Received from server:', data.decode())       
         #msg = s.recvfrom(4096)
