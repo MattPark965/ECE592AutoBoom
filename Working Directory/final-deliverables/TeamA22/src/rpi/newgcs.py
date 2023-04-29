@@ -148,12 +148,12 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     gps_long_offset = float(0.00025372136)
 
     #OffsetPosition, decimal degrees
-    latO = lat + dLat * 180/np.pi + gps_lat_offset
-    lonO = lon + dLon * 180/np.pi + gps_long_offset
+    # latO = lat + dLat * 180/np.pi + gps_lat_offset
+    # lonO = lon + dLon * 180/np.pi + gps_long_offset
 
     # #OffsetPosition, decimal degrees
-    # latO = lat + dLat * 180/np.pi 
-    # lonO = lon + dLon * 180/np.pi 
+    latO = lat + dLat * 180/np.pi 
+    lonO = lon + dLon * 180/np.pi 
 
     # return calculated coordinates
     return [lonO, latO]
