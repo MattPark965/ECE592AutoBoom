@@ -321,8 +321,13 @@ print(data)
 targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], 50) # drops altitude to 40 to center over target
 # go to calculated coordinate
 copter.vehicle.simple_goto(targetCoordinate)
-print("GOING TO TARGET and sleeping for 15")
-time.sleep(15)
+print("Going to click")
+
+while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
+        time.sleep(1)
+        print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
+#print("GOING TO TARGET and sleeping for 15")
+#time.sleep(15)
 
 #tarp centering 
 tarp_centering()
