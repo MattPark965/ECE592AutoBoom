@@ -104,7 +104,32 @@ class Copter():
         return (self.vehicle)
         print(">> Connection Established")
 
-    def _get_location_metres(self, original_location, dNorth, dEast, is_global=False):
+    # def _get_location_metres(self, original_location, dNorth, dEast, is_global=False):
+    #     """
+    #     Returns a Location object containing the latitude/longitude `dNorth` and `dEast` metres from the
+    #     specified `original_location`. The returned Location has the same `alt and `is_relative` values
+    #     as `original_location`.
+    #     The function is useful when you want to move the vehicle around specifying locations relative to
+    #     the current vehicle position.
+    #     The algorithm is relatively accurate over small distances (10m within 1km) except close to the poles.
+    #     For more information see:
+    #     http://gis.stackexchange.com/questions/2951/algorithm-for-offsetting-a-latitude-longitude-by-some-amount-of-meters
+    #     """
+    #     earth_radius=6378137.0 #Radius of "spherical" earth
+    #     #Coordinate offsets in radians
+    #     dLat = dNorth/earth_radius
+    #     dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
+
+    #     #New position in decimal degrees
+    #     newlat = original_location.lat + (dLat * 180/math.pi)
+    #     newlon = original_location.lon + (dLon * 180/math.pi)
+
+    #     if is_global:
+    #         return LocationGlobal(newlat, newlon,original_location.alt)
+    #     else:
+    #         return LocationGlobalRelative(newlat, newlon,original_location.alt)
+
+    def get_location_metres(original_location, dNorth, dEast, altitude):
         """
         Returns a Location object containing the latitude/longitude `dNorth` and `dEast` metres from the
         specified `original_location`. The returned Location has the same `alt and `is_relative` values
@@ -123,11 +148,8 @@ class Copter():
         #New position in decimal degrees
         newlat = original_location.lat + (dLat * 180/math.pi)
         newlon = original_location.lon + (dLon * 180/math.pi)
-
-        if is_global:
-            return LocationGlobal(newlat, newlon,original_location.alt)
-        else:
-            return LocationGlobalRelative(newlat, newlon,original_location.alt)
+        
+        return LocationGlobalRelative(newlat, newlon,altitude)
 
     def is_armed(self):                         #-- Check whether uav is armed
         """

@@ -87,7 +87,29 @@ s.bind((SERVER_IP, PORTpi))
 #     s.sendto(message.encode(), (CLIENT_IP, PORT))
 #     time.sleep(2) 
 #     print("debug 🫡")
-    
+
+def get_location_metres(original_location, dNorth, dEast, altitude):
+        """
+        Returns a Location object containing the latitude/longitude `dNorth` and `dEast` metres from the
+        specified `original_location`. The returned Location has the same `alt and `is_relative` values
+        as `original_location`.
+        The function is useful when you want to move the vehicle around specifying locations relative to
+        the current vehicle position.
+        The algorithm is relatively accurate over small distances (10m within 1km) except close to the poles.
+        For more information see:
+        http://gis.stackexchange.com/questions/2951/algorithm-for-offsetting-a-latitude-longitude-by-some-amount-of-meters
+        """
+        earth_radius=6378137.0 #Radius of "spherical" earth
+        #Coordinate offsets in radians
+        dLat = dNorth/earth_radius
+        dLon = dEast/(earth_radius*math.cos(math.pi*original_location.lat/180))
+
+        #New position in decimal degrees
+        newlat = original_location.lat + (dLat * 180/math.pi)
+        newlon = original_location.lon + (dLon * 180/math.pi)
+        
+        return LocationGlobalRelative(newlat, newlon,altitude)
+
 
 # # Receive message from server
 # data = s.recv(4096)
@@ -217,7 +239,8 @@ def tarp_centering():
         currentLocation = copter.vehicle.location.global_relative_frame
 
         # Update the target location based on the calculated incremental distances
-        targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
+        # targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
+        targetLocation = get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y, 50)
 
         # Command the drone to move to the updated target location
         copter.vehicle.simple_goto(targetLocation)
