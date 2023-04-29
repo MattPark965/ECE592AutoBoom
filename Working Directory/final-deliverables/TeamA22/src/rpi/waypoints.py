@@ -217,8 +217,8 @@ def tarp_centering():
         image_center = (image.shape[1] // 2, image.shape[0] // 2)
 
         # Calculate the pixel difference between the image center and the tarp center
-        dx = tarp_center[0] - image_center[1]
-        dy = tarp_center[1] - image_center[0]
+        dx = tarp_center[0] - image_center[0]
+        dy = tarp_center[1] - image_center[1]
 
         # Check if the tarp is centered within 5% of the image dimensions
         if abs(dx) < 0.05 * image.shape[1] and abs(dy) < 0.05 * image.shape[0]:
