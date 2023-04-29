@@ -315,10 +315,10 @@ print("Command Received")
   #      break
   #  except:
         #'''print("Waiting for GCS")'''
-
+print(data)
 
 # create location object from GCS calculated coordinate
-targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], 40) # drops altitude to 40 to center over target
+targetCoordinate = LocationGlobalRelative(gcsCmd[0], gcsCmd[1], 50) # drops altitude to 40 to center over target
 # go to calculated coordinate
 copter.vehicle.simple_goto(targetCoordinate)
 print("GOING TO TARGET and sleeping for 15")
