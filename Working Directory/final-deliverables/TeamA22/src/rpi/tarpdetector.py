@@ -14,7 +14,7 @@ import os
 # The below is a function that returns the center of a cluster of blue pixels
 # If there is no blue in the image then it returns None
 
-def detect_blue_cluster(img, lower_blue, upper_blue, count):
+def detect_blue_cluster(img, lower_blue, upper_blue, count=15):
     # Create a binary mask using the specified blue color range in BGR format
     cwd = os.getcwd()
     lower_blue = np.array([0, 80, 0])
@@ -51,5 +51,5 @@ def detect_blue_cluster(img, lower_blue, upper_blue, count):
         print(f'calculated blue cluster center: {blue_cluster_center}')
         return blue_cluster_center
     
-    print('no cluster: (0,0)')
-    return (0,0)
+    print('no cluster')
+    return None
