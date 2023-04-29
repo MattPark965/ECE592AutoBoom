@@ -327,7 +327,8 @@ while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > flo
         time.sleep(1)
         print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
 #print("GOING TO TARGET and sleeping for 15")
-#time.sleep(15)
+print("Sleeping for 2 seconds before starting centering.")
+time.sleep(2)
 
 #tarp centering 
 tarp_centering()
