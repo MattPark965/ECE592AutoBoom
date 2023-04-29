@@ -217,7 +217,7 @@ def tarp_centering():
         currentLocation = copter.vehicle.location.global_relative_frame
 
         # Update the target location based on the calculated incremental distances
-        targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
+        targetLocation = copter.vehicle._get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
 
         # Command the drone to move to the updated target location
         copter.vehicle.simple_goto(targetLocation)
