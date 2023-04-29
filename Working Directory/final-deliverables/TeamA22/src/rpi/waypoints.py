@@ -231,8 +231,8 @@ def tarp_centering():
         PixelMetersHeight = 0.0455
 
         # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx * -PixelMetersWidth
-        incremental_distance_y =  dy * -PixelMetersHeight
+        incremental_distance_x =  dx * .9(PixelMetersWidth)
+        incremental_distance_y =  dy * .9(PixelMetersHeight)
 
 
         # Update the current location
@@ -240,7 +240,7 @@ def tarp_centering():
 
         # Update the target location based on the calculated incremental distances
         # targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
-        targetLocation = get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y, 50)
+        targetLocation = get_location_metres(currentLocation, incremental_distance_y, incremental_distance_x, 50)
 
         # Command the drone to move to the updated target location
         copter.vehicle.simple_goto(targetLocation)
@@ -355,7 +355,7 @@ time.sleep(2)
 
 #tarp centering 
 tarp_centering()
-targetCoordinate = LocationGlobal((copter.pos_lon,copter.pos_lat, 20)) # Updates targ coord to where it centered at 40m
+targetCoordinate = LocationGlobal((copter.pos_lon,copter.pos_lat, 50)) # Updates targ coord to where it centered at 40m
 copter.vehicle.simple_goto(targetCoordinate)
 while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], 50) > float(position_buffer)):
         time.sleep(1)
