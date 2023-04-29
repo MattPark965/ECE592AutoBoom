@@ -227,8 +227,8 @@ def tarp_centering():
         #continue
 
     # As in the Check Image Get Coords function Here is the calculated values for each pixel in meters
-    PixelMetersWidth  = 0.0341
-    PixelMetersHeight = 0.0455
+    PixelMetersWidth  = .8 * 0.0341
+    PixelMetersHeight = .8 * 0.0455
 
     # The below sets the difference in meters by 1/10 of the pixel differences
     incremental_distance_x =  dx * PixelMetersWidth
