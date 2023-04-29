@@ -125,8 +125,10 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     # cos / sin adjustment for pixels based on yaw angle
     #-----------------------------------------
 
-    GSD_height = (drone_alt * SENSOR_HEIGHT)/(FOCAL_LENGTH * IMAGE_HEIGHT)
-    GSD_width = (drone_alt * SENSOR_WIDTH)/(FOCAL_LENGTH * IMAGE_WIDTH)
+    # GSD_height = (drone_alt * SENSOR_HEIGHT)/(FOCAL_LENGTH * IMAGE_HEIGHT)
+    # GSD_width = (drone_alt * SENSOR_WIDTH)/(FOCAL_LENGTH * IMAGE_WIDTH)
+    GSD_height = 45.55035186721915 / 1080 #Meter per pixel
+    GSD_width = 80.9784033195007 / 1920 #Meter per pixel
 
     object_x = GSD_width * target_px_coor[0]
     object_y = GSD_height * target_px_coor[1]
