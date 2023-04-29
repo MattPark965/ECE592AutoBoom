@@ -420,7 +420,7 @@ class Copter():
     def bomb_one_away(self):
         servo = Servo(17)
         #opens first bomb bay
-        for i in range (3): 
+        for i in range (5): 
             servo.value = 1 - (i * .1)
             time.sleep(.5)
         i = 1
