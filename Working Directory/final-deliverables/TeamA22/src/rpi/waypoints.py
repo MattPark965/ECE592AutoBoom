@@ -198,55 +198,55 @@ def tarp_centering():
     lower_blue = np.array([0, 80, 0])  # Lower bound of the blue color range in HSV
     upper_blue = np.array([255, 250, 45])  # Upper bound of the blue color range in HSV
     j = 0
-    centered = False
-    while not (centered):
-        # Read the image from the drone's camera
-        ret, image=cam.read()
-        #IMPLEMENT CAMERA CAPTURE HERE
-        cwd = os.getcwd()
-        # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
-        imagefilename = os.path.join(cwd, f'centering_image_{j}.jpg')
-        cv2.imwrite(imagefilename, image)  # Save picture to the rpi
+    #centered = False
+    #while not (centered):
+    # Read the image from the drone's camera
+    ret, image=cam.read()
+    #IMPLEMENT CAMERA CAPTURE HERE
+    cwd = os.getcwd()
+    # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
+    imagefilename = os.path.join(cwd, f'centering_image_{j}.jpg')
+    cv2.imwrite(imagefilename, image)  # Save picture to the rpi
 
-        image = cv2.imread(imagefilename)
-        j+=1
-        # Get the center of the tarp using the detect_blue_cluster() function
-        tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
+    image = cv2.imread(imagefilename)
+    j+=1
+    # Get the center of the tarp using the detect_blue_cluster() function
+    tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
 
-        # Define the image center
-        image_center = (image.shape[1] // 2, image.shape[0] // 2)
+    # Define the image center
+    image_center = (image.shape[1] // 2, image.shape[0] // 2)
 
-        # Calculate the pixel difference between the image center and the tarp center
-        dx = tarp_center[0] - image_center[0]
-        dy = tarp_center[1] - image_center[1]
+    # Calculate the pixel difference between the image center and the tarp center
+    dx = tarp_center[0] - image_center[0]
+    dy = tarp_center[1] - image_center[1]
 
-        # Check if the tarp is centered within 5% of the image dimensions
-        if abs(dx) < 0.05 * image.shape[1] and abs(dy) < 0.05 * image.shape[0]:
-            centered = True
-            print("Tarp centered")
-            continue
+    # Check if the tarp is centered within 5% of the image dimensions
+    if abs(dx) < 0.05 * image.shape[0] and abs(dy) < 0.05 * image.shape[1]:
+        centered = True
+        print("Tarp centered")
+        #continue
 
-        # As in the Check Image Get Coords function Here is the calculated values for each pixel in meters
-        PixelMetersWidth  = 0.0341
-        PixelMetersHeight = 0.0455
+    # As in the Check Image Get Coords function Here is the calculated values for each pixel in meters
+    PixelMetersWidth  = 0.0341
+    PixelMetersHeight = 0.0455
 
-        # The below sets the difference in meters by 1/10 of the pixel differences
-        incremental_distance_x =  dx * PixelMetersWidth
-        incremental_distance_y =  dy * PixelMetersHeight
+    # The below sets the difference in meters by 1/10 of the pixel differences
+    incremental_distance_x =  dx * PixelMetersWidth
+    incremental_distance_y =  dy * PixelMetersHeight
 
 
-        # Update the current location
-        currentLocation = copter.vehicle.location.global_relative_frame
+    # Update the current location
+    currentLocation = copter.vehicle.location.global_relative_frame
 
-        # Update the target location based on the calculated incremental distances
-        # targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
-        targetLocation = get_location_metres(currentLocation, incremental_distance_y, incremental_distance_x, 50)
+    # Update the target location based on the calculated incremental distances
+    # targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
+    targetLocation = get_location_metres(currentLocation, incremental_distance_y, incremental_distance_x, 50)
 
-        # Command the drone to move to the updated target location
-        copter.vehicle.simple_goto(targetLocation)
+    # Command the drone to move to the updated target location
+    copter.vehicle.simple_goto(targetLocation)
 
-        print("Drone is moving to center over the tarp")
-        time.sleep(5)
+    print("Drone is moving to center over the tarp")
+    time.sleep(5)
 
     
 
@@ -360,7 +360,7 @@ copter.vehicle.simple_goto(targetCoordinate)
 while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], 50) > float(position_buffer)):
         time.sleep(1)
         print(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt), float(position_buffer))
-tarp_centering() # centers again at 20M
+#tarp_centering() # centers again at 20M
 
 # wait while the copter is travelling to the calculated coordinate
 # while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], takeoff_alt) > float(5)):
