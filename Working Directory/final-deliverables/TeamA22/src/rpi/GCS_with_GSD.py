@@ -1,16 +1,12 @@
 '''
     ECE 592 Spring 2023 continued by
     Dom Barrera
-    Matt Parker
-    Amy Deepee
-    Wesley Cowand
-    Victor Minin
     ECE 592 - Autonomous Bomber
     Ayush Luthra
     Alex Wheelis
     Kishan Joshi
-    Harrison Tseng 
-    
+    Harrison Tseng
+
 '''
 # import necessary libraries
 import socket, keyboard, time
@@ -23,10 +19,10 @@ import sys
 print("Python executable path:", sys.executable)
 
 # Set up IP address and port
-SERVER_IP = '127.0.0.1' 
+SERVER_IP = '192.168.1.164'
 LOCAL_IP = '192.168.1.224'  # replace with the IP address of the server
 #LOCAL_IP = '0.0.0.0'  # replace with the IP address of the server
-PORTpi = 6000  # replace with the port number used by the server
+PORTpi = 6001  # replace with the port number used by the server
 PORTgcs = 5501
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -34,7 +30,7 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Set socket timeout to 1 second
 # s.settimeout(1)
-#s.bind((LOCAL_IP, PORTgcs))
+s.bind((LOCAL_IP, PORTgcs))
 
 # # Attempt to connect to server
 # while True:
@@ -99,8 +95,8 @@ latYCoords = []
 clickX, clickY = '', ''
 ip_port = ''
 
-# Calculate the estimated GPS location of a blue object using 
-# drone altitude, pitch, roll, yaw 
+# Calculate the estimated GPS location of a blue object using
+# drone altitude, pitch, roll, yaw
 # a known GPS location of the drone when the picture was taken
 # calculated pixel coordinates of the blue object from the center of the image
 def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone_azimuth):
@@ -125,8 +121,7 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     drone_lat = drone_lat_long_coor[1]
     drone_lon = drone_lat_long_coor[0]
 
-    # east_west_const =  1/(111111*np.cos(38*np.pi/180)) ??? Ask Dom
-    east_west_const =  1/(111111 * np.cos(drone_lat * np.pi/180)) # Modified line
+    east_west_const =  1/(111111*np.cos(38*np.pi/180))
     north_south_const = 1/111111 # deg/meters
 
     lat_lon_const = 1/111111 # deg/meters
@@ -136,7 +131,7 @@ def get_lat_long_of_target(target_px_coor, drone_lat_long_coor, drone_alt, drone
     PITCH = drone_azimuth[0]
     ROLL = drone_azimuth[1]
     YAW = drone_azimuth[2]
-    
+
     # removed roll and pitch correction due to use of a gimble.
     lat =  drone_lat
     lon =  drone_lon
@@ -187,47 +182,51 @@ fig.canvas.mpl_connect('button_press_event', onclick)
 # Receive Message from PI (Drone)
 def receive_message():
     # Set RECEIVING end of communication to be nonblocking. ABSOLUTELY NECESSARY.
-    s.setblocking(0)
+    #s.setblocking(0)
 
     # Try because if you do not receive a message, you will timeout.
     # Instead of timing out, we can keep retrying for a message.
-    while True:
-        # time.sleep(2)    
+    #while True:
+        # time.sleep(2)
         # msg, address = s.recvfrom(4096)
         # print(msg)
         # print('Server is running and listening on', address, 'port', PORT)
-        try:
-            time.sleep(2)  
-            msg = s.recvfrom(4096)
+        #try:
+            #time.sleep(2)
+    msg = s.recvfrom(4096)
             # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
             # msg = s.recvfrom(4096)
-            data = msg[0]
-            ip_port = msg[1]
+    data = msg[0]
+    print(data)
+    ip_port = msg[1]
             # Using json to decode data. USE THIS EXACT FORMAT WHEN RECEIVING DATA
-            decode_message = json.loads(data.decode('utf-8'))
+    decode_message = json.loads(data.decode('utf-8'))
 
             # Currently type(decode_message) is a way of checking whether this is the data we want.
             # The type we are looking for is dictionary.
             # If the message is anything else, the message was NOT meant to be sent to the server.
-            if type(decode_message) is dict:
-                xy = [decode_message['target_x'], decode_message['target_y']]
+    if type(decode_message) is dict:
+        xy = [decode_message['target_x'], decode_message['target_y']]
                 # Add to plot, "s" argument is the added point's size.
-                ax.scatter(xy[0], xy[1], s = 5)
-                plt.pause(0.01)
-            else:
+        ax.scatter(xy[0], xy[1], s = 5)
+        plt.pause(0.01)
+    else:
                 # If the message was not intended for us, print the message type.
-                print(type(decode_message))
+        print(type(decode_message))
 
         # Except and triple quotes MUST BE INCLUDED to maintain nonblocking code.
-        except socket.error:
-            '''print('Server is not running or not listening at port', PORTpi)'''
+       # except socket.error:
+        #    '''print('Server is not running or not listening at port', PORTpi)'''
 
-
+data_recieved = False
 while True:
 
     # Receive Message Protocol
     #receive_message()
-
+    if (data_recieved == False):
+        receive_message()
+        print('received from server')
+        data_recieved = True
     # Terminate GCS if 'q'
     if keyboard.is_pressed('q'):
         break
@@ -246,7 +245,6 @@ while True:
                 packet = json.dumps(send_data).encode('utf-8')
                 s.sendto(bytes(packet), (SERVER_IP, PORTpi)) # pi IP
                 print("SENT COORDINATES")
-                time.sleep(2)
 
     plt.pause(0.01)
 
