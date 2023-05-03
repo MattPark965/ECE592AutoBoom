@@ -17,6 +17,7 @@ start = [35.726688, -78.695573]
 start[0] = start[0] - (rect_height/2)/latitude 
 start[1] = start[1] + (rect_width/2)/longitude
 
+#For loop to find the 9 coordinates
 for y in range (3):
     print(start)
     #take picture code
