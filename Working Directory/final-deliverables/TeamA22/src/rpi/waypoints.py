@@ -25,16 +25,10 @@ import sys
 import socket
 import time
 import os
-# import MissionPlanner #import *
-# # clr.AddReference(“MissionPlanner.Utilities”) # includes the Utilities class
-# from MissionPlanner.Utilities import Locationwp
+
 print("imports Completed")
 
-cwd = os.getcwd()
-# item = MissionPlanner.Utilities.Locationwp()
-# alt = 30
-# MissionPlanner.Utilities.Locationwp.alt.SetValue(item,alt)
-# print("Altitude changed to 30 m")
+cwd = os.getcwd() #Get current directory
 
 
 # parse arguemnts from command line
@@ -46,12 +40,6 @@ parser.add_argument('--rpi_port', default='5555')
 parser.add_argument('--connect', default='udp:127.0.0.1:14551')
 args = parser.parse_args()
 
-# connect to copter on localhost
-# import argparse
-# parser = argparse.ArgumentParser(description='Commands vehicle using vehicle.simple_goto.')
-# parser.add_argument('--connect', help="Vehicle connection target string.")
-# args = parser.parse_args()
-
 # aquire connection_string
 connection_string = args.connect
 if not connection_string:
@@ -62,31 +50,15 @@ print('Connecting to vehicle on: %s' % connection_string)
 copter = Copter(connection_string)
 print("CONNECTED")
 
-# # set up socket to send data to GCS
-# s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-# gcs_ip = args.gcs_ip
-# gcs_port = int(args.gcs_port)
-# rpi_port = int(args.rpi_port)
-# rpi_ip = args.rpi_ip
-# s.bind((rpi_ip, int(rpi_port)))
-
 # Set up IP addresses and port
 SERVER_IP = '192.168.1.164'  # replace with the IP address of the server
-# SERVER_IP = '0.0.0.0'  # replace with the IP address of the server
-# CLIENT_IP = '10.154.60.204'  # replace with the IP address of the client
-#CLIENT_IP = '10.153.14.30'  # replace with the IP address of the client WILLIAMS
 CLIENT_IP = '192.168.1.224'
 PORTpi = 6001 # replace with any available port number
 PORTgcs = 5501
+
 # Create socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # DGRAM MAKES IT UDP
-# s.setblocking(0)
 s.bind((SERVER_IP, PORTpi))
-# while True:
-#     message = 'Hello, server!'
-#     s.sendto(message.encode(), (CLIENT_IP, PORT))
-#     time.sleep(2) 
-#     print("debug 🫡")
 
 def get_location_metres(original_location, dNorth, dEast, altitude):
         """
@@ -111,11 +83,6 @@ def get_location_metres(original_location, dNorth, dEast, altitude):
         return LocationGlobalRelative(newlat, newlon,altitude)
 
 
-# # Receive message from server
-# data = s.recv(4096)
-# print('Received from server:', data.decode())
-
-
 # setup listeners to get all messages from the copter
 copter._setup_listeners()
 
@@ -124,8 +91,6 @@ time.sleep(2)
 
 # print current coordinates to check for good GPS signal
 print("Bypass Here - FOR DEBUG ONLY🫡")
-# print("LAT : " + str(copter.pos_lat))
-# print("LON : " + str(copter .pos_lon))
 
 # check arming status of the copter
 while not copter.is_armed():
@@ -159,29 +124,22 @@ cam.set(3, 1920)
 cam.set(4, 1080)
 
 #Initialize vars necessary for the tarp detection code
-j = 0
+pic_count = 0
 
 #Reusable take picture+save image function
-def take_picture(j):
+def take_picture(pic_count):
     print("Taking picture in 3 seconds!")
     time.sleep(3)
     ret, image=cam.read() #Live view of camera frame
     print("Taking picture now!")
     time.sleep(1)
-    imagefilename = os.path.join(cwd, f'test_{j}.jpg')
+    imagefilename = os.path.join(cwd, f'test_{pic_count}.jpg')
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
-    # imagefilename = f'~/ece592/ECE592AutoBoom/test_'+str(j)+'.jpg'
-    # cv2.imwrite(imagefilename, image)  # Save picture to the rpi
-    Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat), j)
-    #cv2.imshow('test_'+str(j),image) #Show image taken        
-    #cv2.imwrite('/home/raspberrypi/test_'+str(j)+'.jpg', image) #Save picture to the rpi
+    Tarps = Check_Picture_Find_Coords(imagefilename, copter.pos_alt_rel, (copter.pos_lon,copter.pos_lat), pic_count)
 
     if Tarps is not None: #This loop executed if tarp is found
-        # cv2.circle(image, (int(Tarps[0]), int(Tarps[1])), radius = 5, color = (0, 255, 0), thickness = -1)
-        imagefilename = os.path.join(cwd, f'test_{j}_marked.jpg')
+        imagefilename = os.path.join(cwd, f'test_{pic_count}_marked.jpg')
         cv2.imwrite(imagefilename, image)  # Save picture to the rpi
-        # cv2.imwrite('~/ece592/ECE592AutoBoom/test_'+str(j)+'marked'+'.jpg', image) #Save picture to the rpi
-
         packet = {
                     "target_x" : Tarps[0],
                     "target_y" : Tarps[1]
@@ -191,25 +149,32 @@ def take_picture(j):
         # send data to the GCS
         s.sendto(packet_bytes, (CLIENT_IP, PORTgcs))
 
-def dummy_take_picture(j):
-    print(j)
+def dummy_take_picture(pic_count):
+    """
+    This function can be used to run this file in SITL without errors because SITL may not
+    be configured to take pictures and will throw errors. 
+    """
+    print(pic_count)
 
 def tarp_centering():
+    """"
+    This function implements tarp centering after the tarp has been located in order to 
+    increase accuracy when dropping payload. 
+    """
     lower_blue = np.array([0, 80, 0])  # Lower bound of the blue color range in HSV
     upper_blue = np.array([255, 250, 45])  # Upper bound of the blue color range in HSV
-    j = 0
+    pic_count = 0
     #centered = False
     #while not (centered):
     # Read the image from the drone's camera
     ret, image=cam.read()
     #IMPLEMENT CAMERA CAPTURE HERE
     cwd = os.getcwd()
-    # cv2.imwrite('/home/raspberrypi/centering_image.jpg', image) #Save picture to the rpi
-    imagefilename = os.path.join(cwd, f'centering_image_{j}.jpg')
+    imagefilename = os.path.join(cwd, f'centering_image_{pic_count}.jpg')
     cv2.imwrite(imagefilename, image)  # Save picture to the rpi
 
     image = cv2.imread(imagefilename)
-    j+=1
+    pic_count+=1
     # Get the center of the tarp using the detect_blue_cluster() function
     tarp_center = detect_blue_cluster(image, lower_blue, upper_blue)
 
@@ -239,7 +204,6 @@ def tarp_centering():
     currentLocation = copter.vehicle.location.global_relative_frame
 
     # Update the target location based on the calculated incremental distances
-    # targetLocation = copter.vehicle.get_location_metres(currentLocation, incremental_distance_x, incremental_distance_y)
     targetLocation = get_location_metres(currentLocation, incremental_distance_y, incremental_distance_x, 50)
 
     # Command the drone to move to the updated target location
@@ -273,17 +237,6 @@ copter.condition_yaw(0) #Sets heading north
 print("Setting heading, then sleeping for 5 seconds")
 time.sleep(5)
 
-# #### ------------------------ DELETE AFTER TESTING
-
-# take_picture(22)
-# print("sleeping, RTL is no errors")
-# copter.set_ap_mode("RTL")
-# time.sleep(200)
-
-# #### ------------------------
-
-# copter.vehicle.airspeed = 3 #m/s
-#count = 1
 print("Beginning path to first waypoint at 3 m/s")
 
 # parse through each waypoint in file
@@ -295,49 +248,21 @@ for command in missionlist:
     while(copter.distance_to_current_waypoint(command.x, command.y, command.z) > float(position_buffer)):
         time.sleep(1)
         print(copter.distance_to_current_waypoint(command.x, command.y, command.z), float(position_buffer))
-        #count = count + 1
-    #dummy_take_picture(j)
-    take_picture(j)
-    j=j+1 
-    #print("GOING TO NEXT WAYPOINT")
+    take_picture(pic_count)
+    pic_count=pic_count+1 
 
-# set socket behavior
-# s.setblocking(0)
 
-# wait for calculated coordinates from the GCS
-# while True:
-#     try:
-#         msg = s.recvfrom(4096)
-#         data = msg[0]
-#         gcsCmd = json.loads(data.decode('utf-8'))
-#         print("Command Received")
-#         break
-#     except:
-#         '''print("Waiting for GCS")'''
-
-# print(gcsCmd)
-
-#set socket behavior
-
-#message = 'Hello, server!'
-#s.sendto(message.encode(), (CLIENT_IP, PORT))
-#time.sleep(2) 
 print("debug 🫡")
 
-#while True:
- #   try:
+
 print("Waiting for GCS")
 msg = s.recvfrom(4096)
-#print('Received from server:', data.decode())       
-        #msg = s.recvfrom(4096)
+        
 print(msg)
 data = msg[0]
 print (data)
 gcsCmd = json.loads(data.decode('utf-8'))
 print("Command Received")
-  #      break
-  #  except:
-        #'''print("Waiting for GCS")'''
 print(data)
 
 # create location object from GCS calculated coordinate
@@ -353,7 +278,7 @@ while(copter.distance_to_current_waypoint(gcsCmd[0], gcsCmd[1], 50) > float(posi
 print("Sleeping for 2 seconds before starting centering.")
 time.sleep(2)
 
-#tarp centering 
+#tarp centering not implemented in final demo, but is included below for reference 
 #tarp_centering()
 # targetCoordinate = LocationGlobal((copter.pos_lon,copter.pos_lat, 50)) # Updates targ coord to where it centered at 40m
 # copter.vehicle.simple_goto(targetCoordinate)
