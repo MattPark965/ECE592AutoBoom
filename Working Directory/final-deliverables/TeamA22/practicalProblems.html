@@ -19,7 +19,7 @@ p {font-family:Arial, serif;font-size:16px;font-style:normal;font-weight:normal;
 <h3>Hardware Problems</h3>
 <p>
   1) Airframe <br>
-  Our project initially began with the team using the Volantex Ranger 757-3 airplane to conduct our bombing.
+  2022 Team: Our project initially began with the team using the Volantex Ranger 757-3 airplane to conduct our bombing.
   Due to imbalances caused by our installed hardware, the plane had difficulties achieving a successful loiter flight.
   After hours of tuning the airplane to fly effectively, the team along decided to use the SAM4 drone to conduct our boming run.
   This hardware problem cost the team weeks of development time as our progress was halted by the plane not flying well.
@@ -27,15 +27,32 @@ p {font-family:Arial, serif;font-size:16px;font-style:normal;font-weight:normal;
   <br>
   <br>
   2) Raspberry Pi power delivery <br>
-  The cables which powered the raspberry pi gave us a some problems as the raspberry pi displayed a low voltage warning when hooked up to a monitor.
+  2022 Team: The cables which powered the raspberry pi gave us a some problems as the raspberry pi displayed a low voltage warning when hooked up to a monitor.
   This issue didn't have any significant consequences and the team proceeded using the same cable.
   <br>
   <br>
   3) Dead gimbal <br>
-  The gimbal we receieved wouldn't power on when hooked up to the batteries.
+  2022 Team: The gimbal we receieved wouldn't power on when hooked up to the batteries.
   After a few hours of debugging and resoldering our cables, a short was found coming from the power and ground wires from the gimbal control module.
   This forced the team to pivot to using flat-mounted webcam instead of the gimbal on our payload.
   The gimbal would have simplified math on the GCS end by eliminating the pitch and roll parameters.
+  <br>
+  2023 Team: We attempted to use three different gimbals - unfortunately, all of them seemed to be burned out and were in an inoperable state. Similar to the last team 
+  we implemented a fix by taping the gimbal into a fixed downward position and created software to account for this change.
+  
+  <br>
+  <br>
+  4) Payload Dropping Mechanism <br>
+  2023 Team: Our mechanism to drop the 3D printed bomb required tension to hold the pins in a locked state until the servo forcibly moved the pin to position 1 or 2. 
+  While this should have been a spring-loaded design, we foudn that an elastic band provided enough tension to hold the pins in place without being too strong for the 
+  servo to move when activated.
+  
+  <br>
+  <br>
+  5) Glue on Tabs <br>
+  2023 Team: Our 3D printed bombs were printed in two pieces - the main bomb and the tab that secured it to the dropping mechanism. To combine these pieces we used hot glue.
+  The hot glue did not hold well and we actually had a bomb unexpectedly drop due to the two pieces separating at the glue. We found that gorilla glue and a generous amount 
+  of time to allow for setting was needed to overcome this.
 
 </p>
 
