@@ -19,9 +19,8 @@ import sys
 print("Python executable path:", sys.executable)
 
 # Set up IP address and port
-SERVER_IP = '192.168.1.164'
-LOCAL_IP = '192.168.1.224'  # replace with the IP address of the server
-#LOCAL_IP = '0.0.0.0'  # replace with the IP address of the server
+SERVER_IP = '192.168.1.164' #pi ip
+LOCAL_IP = '192.168.1.224'  #GCS ip
 PORTpi = 6001  # replace with the port number used by the server
 PORTgcs = 5501
 # Create socket object
@@ -193,7 +192,7 @@ def receive_message():
         # print('Server is running and listening on', address, 'port', PORT)
         #try:
             #time.sleep(2)
-    msg = s.recvfrom(4096)
+    msg = s.recvfrom(4096) #holds program until recieved from drone.
             # recvfrom is a UDP command, recv is a TCP command, takes in argument (Buffer Size).
             # msg = s.recvfrom(4096)
     data = msg[0]
@@ -224,7 +223,7 @@ while True:
     # Receive Message Protocol
     #receive_message()
     if (data_recieved == False):
-        receive_message()
+        receive_message() #setup to only receive the first target but can be changed if multiple targets pursued. 
         print('received from server')
         data_recieved = True
     # Terminate GCS if 'q'
