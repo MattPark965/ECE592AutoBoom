@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+Autonomous Bomber
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="ECE 592 Project - Autonomous Bomber">
+<style>
+body {background-color:#ffffff;background-repeat:no-repeat;background-position:top left;background-attachment:fixed;}
+h1{font-family:Arial, sans-serif;color:#000000;background-color:#ffffff;}
+h3{font-family:Arial, sans-serif;color:#000000;background-color:#ffffff;}
+p {font-family:Arial, serif;font-size:16px;font-style:normal;font-weight:normal;color:#000000;background-color:#ffffff;}
+</style>
+</head>
+<body>
+<h1>Autonomous Bomber Practical Problems</h1>
+
+<h3>Hardware Problems</h3>
+<p>
+  1) Airframe <br>
+  2022 Team: Our project initially began with the team using the Volantex Ranger 757-3 airplane to conduct our bombing.
+  Due to imbalances caused by our installed hardware, the plane had difficulties achieving a successful loiter flight.
+  After hours of tuning the airplane to fly effectively, the team along decided to use the SAM4 drone to conduct our boming run.
+  This hardware problem cost the team weeks of development time as our progress was halted by the plane not flying well.
+  In addition to the plane not behaving as expected, the constant repairs in between flights slowly degraded the functionality of the plane.
+  <br>
+  <br>
+  2) Raspberry Pi power delivery <br>
+  2022 Team: The cables which powered the raspberry pi gave us a some problems as the raspberry pi displayed a low voltage warning when hooked up to a monitor.
+  This issue didn't have any significant consequences and the team proceeded using the same cable.
+  <br>
+  <br>
+  3) Dead gimbal <br>
+  2022 Team: The gimbal we receieved wouldn't power on when hooked up to the batteries.
+  After a few hours of debugging and resoldering our cables, a short was found coming from the power and ground wires from the gimbal control module.
+  This forced the team to pivot to using flat-mounted webcam instead of the gimbal on our payload.
+  The gimbal would have simplified math on the GCS end by eliminating the pitch and roll parameters.
+  <br>
+  2023 Team: We attempted to use three different gimbals - unfortunately, all of them seemed to be burned out and were in an inoperable state. Similar to the last team 
+  we implemented a fix by taping the gimbal into a fixed downward position and created software to account for this change.
+  
+  <br>
+  <br>
+  4) Payload Dropping Mechanism <br>
+  2023 Team: Our mechanism to drop the 3D printed bomb required tension to hold the pins in a locked state until the servo forcibly moved the pin to position 1 or 2. 
+  While this should have been a spring-loaded design, we foudn that an elastic band provided enough tension to hold the pins in place without being too strong for the 
+  servo to move when activated.
+  
+  <br>
+  <br>
+  5) Glue on Tabs <br>
+  2023 Team: Our 3D printed bombs were printed in two pieces - the main bomb and the tab that secured it to the dropping mechanism. To combine these pieces we used hot glue.
+  The hot glue did not hold well and we actually had a bomb unexpectedly drop due to the two pieces separating at the glue. We found that gorilla glue and a generous amount 
+  of time to allow for setting was needed to overcome this.
+
+</p>
+
+<h3>Software Problems</h3>
+<p>
+  1) GSD Calculation <br>
+  2022 Team: Due to our gimbal not functioning properly, the team resorted to doing the ground sampling distance math in our code.
+  This involved using the current drone coordinates, pitch, roll, and altitude to calculate the exact coordinate of the target.
+  Due to a lack of testing, the calculation had some issues and some outlier coordinates were produced.
+  With more time and testing, the calculation could have been improved.
+  <br>
+  2023 Team: Similarly to the 2022 Team, we faced unexpected and relatively last minute issues with getting the gimbal to work. We differed in our
+  corrective approaches. We chose to implement a centering function that would lower the drone over the target and ensure the tarp was again in the
+  center of the frame. While we got this working, we were unable to exhaustively test its reliability and would recommend either refining the GCS calculation
+  or further testing the centering calculation or a mixture of both.
+
+  <br>
+  <br>
+  2) GCS Plotting Latency <br>
+  2022 Team: Once the GPS coordinate of the target was calculated, the coordinate was plotted on a scatterplot using Matplotlib.
+  This process however was time consuming and when multiple points were to be plotted, the GCS would experience some latency and we would have to wait for the GCS to populate before selecting a target to bomb.
+  <br>
+  2023 Team: We were fortunate to not encounter this issue.
+
+  <br>
+  <br>
+  3) GCS Stalling <br>
+  2022 Team: There were a few time during a our tests where the amount of points being plotted at once would eventually stall the program, forcing a re-do of our test.
+  The keyboard inputs to our GCS would also sometimes cause a stall.
+  <br>
+  2023 Team: Our detection code worked well enough to only identify the one target on the screen, therefore multiple points being plotted was a moot point.
+  
+  <br>
+  <br>
+  4) Light Level/Calibration <br>
+  2023 Team: Using OpenCV, we found that the light levels often necessitated changing our detected color range from day-to-day. Generally, during the peak 
+  hours of the day this was anon-issue, but once it was close to sunset, the detection code became increasingly unreliable. We would recommend inplementing 
+  some sort of calibration image to send to the GCS to identify the targets color range. We did find that adding a Gaussian and Median Blur helped to mitigate this issue.
+  
+
+</p>
+</body>
