@@ -18,38 +18,26 @@ p {font-family:Arial, serif;font-size:16px;font-style:normal;font-weight:normal;
 
 <h3>Hardware Problems</h3>
 <p>
-  1) Airframe <br>
-  2022 Team: Our project initially began with the team using the Volantex Ranger 757-3 airplane to conduct our bombing.
-  Due to imbalances caused by our installed hardware, the plane had difficulties achieving a successful loiter flight.
-  After hours of tuning the airplane to fly effectively, the team along decided to use the SAM4 drone to conduct our boming run.
-  This hardware problem cost the team weeks of development time as our progress was halted by the plane not flying well.
-  In addition to the plane not behaving as expected, the constant repairs in between flights slowly degraded the functionality of the plane.
-  <br>
-  <br>
-  2) Raspberry Pi power delivery <br>
-  2022 Team: The cables which powered the raspberry pi gave us a some problems as the raspberry pi displayed a low voltage warning when hooked up to a monitor.
-  This issue didn't have any significant consequences and the team proceeded using the same cable.
-  <br>
-  <br>
-  3) Dead gimbal <br>
+  1) Dead gimbal <br>
   2022 Team: The gimbal we receieved wouldn't power on when hooked up to the batteries.
   After a few hours of debugging and resoldering our cables, a short was found coming from the power and ground wires from the gimbal control module.
   This forced the team to pivot to using flat-mounted webcam instead of the gimbal on our payload.
   The gimbal would have simplified math on the GCS end by eliminating the pitch and roll parameters.
   <br>
-  2023 Team: We attempted to use three different gimbals - unfortunately, all of them seemed to be burned out and were in an inoperable state. Similar to the last team 
+  2023 Team: We attempted to use three different gimbals - unfortunately, all of them were in an inoperable state and the software used for the gimbals
+  was extremely difficult to use. Similar to the last team 
   we implemented a fix by taping the gimbal into a fixed downward position and created software to account for this change.
   
   <br>
   <br>
-  4) Payload Dropping Mechanism <br>
+  2) Payload Dropping Mechanism <br>
   2023 Team: Our mechanism to drop the 3D printed bomb required tension to hold the pins in a locked state until the servo forcibly moved the pin to position 1 or 2. 
   While this should have been a spring-loaded design, we foudn that an elastic band provided enough tension to hold the pins in place without being too strong for the 
   servo to move when activated.
   
   <br>
   <br>
-  5) Glue on Tabs <br>
+  3) Glue on Tabs <br>
   2023 Team: Our 3D printed bombs were printed in two pieces - the main bomb and the tab that secured it to the dropping mechanism. To combine these pieces we used hot glue.
   The hot glue did not hold well and we actually had a bomb unexpectedly drop due to the two pieces separating at the glue. We found that gorilla glue and a generous amount 
   of time to allow for setting was needed to overcome this.
@@ -91,7 +79,10 @@ p {font-family:Arial, serif;font-size:16px;font-style:normal;font-weight:normal;
   2023 Team: Using OpenCV, we found that the light levels often necessitated changing our detected color range from day-to-day. Generally, during the peak 
   hours of the day this was anon-issue, but once it was close to sunset, the detection code became increasingly unreliable. We would recommend inplementing 
   some sort of calibration image to send to the GCS to identify the targets color range. We did find that adding a Gaussian and Median Blur helped to mitigate this issue.
-  
-
+  <br>
+  <br>
+  5) Bricking of Ubuntu <br>
+  2023 Team: We had a major set back when Ubuntu was rendered inoperable because of a wrong command used to get test data off of the Pi. It set us back by a lot
+  and we had to spend many hours reinstalling our operating system and all the dependencies, including the dronekit patch required to connect to the drone.
 </p>
 </body>
